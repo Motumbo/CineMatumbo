@@ -23,12 +23,13 @@ public class Pelicula_Dao extends DB implements Interface_Dao<Integer, Pelicula>
     public Pelicula agregar(Pelicula entidad) {
         if (!this.existe(entidad)) {
             try {
-                String query = "insert into tbl_usuario (username, password, categoria) values(?,?,?)";//CAMBIAR STRING QUERY MySQL
+                String query = "insert into tbl_peliculas (nombre, genero, clasificaion, duracion) values(?,?,?,?)";
                 conectar();
                 PreparedStatement ps = getConexion().prepareStatement(query);
-                ps.setString(1, entidad.getUserName());
-                ps.setString(2, entidad.getPass());
-                ps.setString(3, entidad.getCategoria());
+                ps.setString(1, entidad.getNombre());
+                ps.setString(2, entidad.getGenero());
+                ps.setString(3, entidad.getClasificiacion());
+                ps.setInt(4, entidad.getDuracion());  //ESTO VA A TRAER PROBLEMAS PORQUE EL TIPO DE DATO EN LA DB ES UN TIME Y EN MODELO.PELICULA ES UN INT
                 ps.execute();
                 desconectar();
             } catch (SQLException ex) {
@@ -42,12 +43,13 @@ public class Pelicula_Dao extends DB implements Interface_Dao<Integer, Pelicula>
     public Pelicula modificar(Pelicula entidad) {
         if (this.existe(entidad)) {
             try {
-                String query = "update tbl_usuario set password = ? and set categoria = ? where username = ?";//CAMBIAR STRING QUERY MySQL
+                String query = "update tbl_peliculas set genero = ? and set clasificacion = ? and set duracion = ? where nombre = ?";
                 conectar();
                 PreparedStatement ps = getConexion().prepareStatement(query);
-                ps.setString(1, entidad.getPass());
-                ps.setString(2, entidad.getCategoria());
-                ps.setString(3, entidad.getUserName());  
+                ps.setString(1, entidad.getGenero());
+                ps.setString(2, entidad.getClasificiacion());
+                ps.setInt(3, entidad.getDuracion());
+                ps.setString(4, entidad.getNombre());
                 ps.execute();
                 desconectar();
             } catch (SQLException ex) {
@@ -61,10 +63,10 @@ public class Pelicula_Dao extends DB implements Interface_Dao<Integer, Pelicula>
     public void borrar(Pelicula entidad) {
         if (!this.existe(entidad)) {
             try {
-                String query = "DELETE FROM tbl_usuarios WHERE username = ?";//CAMBIAR STRING QUERY MySQL
+                String query = "DELETE FROM tbl_peliculas WHERE nombre = ?";
                 conectar();
                 PreparedStatement ps = getConexion().prepareStatement(query);
-                ps.setString(1, entidad.getUserName());
+                ps.setString(1, entidad.getNombre());
                 ps.execute();
                 desconectar();
             } catch (SQLException ex) {
@@ -76,18 +78,18 @@ public class Pelicula_Dao extends DB implements Interface_Dao<Integer, Pelicula>
     @Override
     public HashMap<Integer, Pelicula> DameAll() {
         HashMap tablaHash = new HashMap();
-        Pelicula user = new Pelicula();
+        Pelicula entidad = new Pelicula();
         try {
             conectar();
             setSentencia(getConexion().createStatement());            
-            setResultado( getSentencia().executeQuery("SELECT * FROM tbl_usuarios"));//CAMBIAR STRING QUERY MySQL
+            setResultado( getSentencia().executeQuery("SELECT * FROM tbl_peliculas"));
             while(getResultado().next()){
-                
-                user.setId_usuario(getResultado().getInt("pk_usuario"));
-                user.setUserName(getResultado().getString("username"));
-                user.setCategoria(getResultado().getString("categoria"));
-                
-                tablaHash.put(user.getId_usuario(), user);
+                entidad.setId_pelicula(getResultado().getInt("pk_pelicula"));
+                entidad.setNombre(getResultado().getString("nombre"));
+                entidad.setGenero(getResultado().getString("genero"));
+                entidad.setClasificiacion(getResultado().getString("clasificacion"));
+                entidad.setDuracion(getResultado().getInt("duracion"));
+                tablaHash.put(entidad.getId_pelicula(), entidad);
             }
             desconectar();
         } catch (SQLException ex) {
@@ -98,28 +100,44 @@ public class Pelicula_Dao extends DB implements Interface_Dao<Integer, Pelicula>
 
     @Override
     public Pelicula dameXId(String id) {
-        Pelicula user = new Pelicula();
+        Pelicula entidad = new Pelicula();
         try {
-            String query = "select username from tbl_usuarios where username = ? ;"; //CAMBIAR STRING QUERY MySQL
+            String query = "select * from tbl_peliculas where nombre = ? ;"; 
             conectar();
             PreparedStatement ps = super.getConexion().prepareStatement(query);
             ps.setString(1, id.toString());
             super.setResultado(ps.executeQuery());
             while (super.getResultado().next()) {
-                user.setUserName(super.getResultado().getString("username"));
-                user.setPass(super.getResultado().getString("password"));
-                user.setCategoria(super.getResultado().getString("categoria"));
+                entidad.setId_pelicula(getResultado().getInt("pk_pelicula"));
+                entidad.setNombre(getResultado().getString("nombre"));
+                entidad.setGenero(getResultado().getString("genero"));
+                entidad.setClasificiacion(getResultado().getString("clasificacion"));
+                entidad.setDuracion(getResultado().getInt("duracion"));
             }
             desconectar();
         } catch (SQLException ex) {
             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return (user);
+        return (entidad);
     }
 
     @Override
     public boolean existe(Pelicula entidad) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String p = "";
+        try {
+            String query = "select nombre from tbl_peliculas where nombre = ? ;";
+            conectar();
+            PreparedStatement ps = super.getConexion().prepareStatement(query);
+            ps.setString(1, entidad.getNombre());
+            super.setResultado(ps.executeQuery());
+            while (super.getResultado().next()) {
+                p = super.getResultado().getString("nombre");
+            }
+            desconectar();
+        } catch (SQLException ex) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (!"".equals(p));
     }
     
 }

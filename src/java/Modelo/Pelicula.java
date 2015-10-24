@@ -9,7 +9,7 @@ public class Pelicula {
     private String _nombre;
     private String _genero;
     private String _clasificiacion;
-    private int _duracion;
+    private int _duracion;  //Cambiar tipo de atributo por Time(deprecated) o Calendar
 
     public String getNombre() {
         return _nombre;

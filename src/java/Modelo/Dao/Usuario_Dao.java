@@ -22,7 +22,7 @@ public class Usuario_Dao extends DB implements Interface_Dao<Integer, Usuario>{
     public Usuario agregar(Usuario entidad) {
         if (!this.existe(entidad)) {
             try {
-                String query = "insert into tbl_usuario (username, password, categoria) values(?,?,?)";
+                String query = "insert into tbl_usuarios (username, password, categoria) values(?,?,?)";
                 conectar();
                 PreparedStatement ps = getConexion().prepareStatement(query);
                 ps.setString(1, entidad.getUserName());
@@ -41,7 +41,7 @@ public class Usuario_Dao extends DB implements Interface_Dao<Integer, Usuario>{
     public Usuario modificar(Usuario entidad) {
         if (this.existe(entidad)) {
             try {
-                String query = "update tbl_usuario set password = ? and set categoria = ? where username = ?";
+                String query = "update tbl_usuarios set password = ? and set categoria = ? where username = ?";
                 conectar();
                 PreparedStatement ps = getConexion().prepareStatement(query);
                 ps.setString(1, entidad.getPass());
