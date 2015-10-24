@@ -1,15 +1,19 @@
 
 package Modelo;
 
+import Modelo.Dao.Sala_Dao;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Sala {
+
     private int _id_sala;
     private String _nombre;
     private int _filas;
     private int _columnas;
     private int _tiempoLimpieza;
-    private List <Funcion> _listaFunciones;
+    private ArrayList <Funcion> _listaFunciones;
 
     public int getId_sala() {
         return _id_sala;
@@ -51,11 +55,52 @@ public class Sala {
         this._tiempoLimpieza = _tiempoLimpieza;
     }
 
-    public List <Funcion> getListaFunciones() {
+    public ArrayList <Funcion> getListaFunciones() {
         return _listaFunciones;
     }
 
-    public void setListaFunciones(List <Funcion> _listaFunciones) {
+    public void setListaFunciones(ArrayList <Funcion> _listaFunciones) {
         this._listaFunciones = _listaFunciones;
     }
+    
+    ////////////////////////////////////////////// METODOS DE ALMACENAMIENTO CON Sala_Dao DB /////////////////////////////////////////////////////////////////
+    
+    
+    private Sala_Dao _datos = new Sala_Dao();
+    private ArrayList<Sala> _listaSalas = new ArrayList<Sala>();
+    
+    public void agregarSala (Sala entidad){
+        _datos.agregar(entidad);
+    }
+    
+    public void modificarSala (Sala entidad){
+        _datos.modificar(entidad);      
+    }
+    
+    public void borrarSala (Sala entidad){
+        _datos.borrar(entidad); 
+    }
+    
+    public ArrayList<Sala> dameListaTodos (){
+        _listaSalas = _datos.dameAll();
+        return _listaSalas;
+    }
+    
+    static ArrayList<Sala> DameAllSalasCine(String nombreCine) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public Sala buscarSala (String nombre){
+        return _datos.dameXId(nombre);
+    }
+    
+    public boolean existe (Sala entidad){
+        return _datos.existe(entidad);
+    }
+    
+    
+    ////////////////////////////////////////////// METODOS DE ALMACENAMIENTO CON Sala_Dao DB /////////////////////////////////////////////////////////////////
+
+    
+    
 }

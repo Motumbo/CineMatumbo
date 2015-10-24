@@ -5,6 +5,7 @@
 package Modelo;
 
 import Modelo.Dao.Usuario_Dao;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -22,7 +23,11 @@ public class Usuario {
     
     
     public Usuario() {
-        
+        setId_usuario(_id_usuario);
+        setUserName(_userName);
+        setPass(_pass);
+        setCategoria(_categoria);
+        setMail(_mail);
     }
     
     public Usuario(String newUsername, String newPassword) {
@@ -96,7 +101,7 @@ public class Usuario {
     
         
     private Usuario_Dao _datos = new Usuario_Dao();
-    private HashMap<Integer, Usuario> _listaUsuarios = new HashMap<Integer, Usuario>();
+    private ArrayList<Usuario> _listaUsuarios = new ArrayList<Usuario>();
     
     public void agregarUsuario (Usuario user){
         if((!user.existe(user)) && (user.passwordCorrecto(user.getPass()))) {
@@ -116,8 +121,8 @@ public class Usuario {
         } 
     }
     
-    public HashMap<Integer, Usuario> dameListaTodos (){
-        _listaUsuarios = _datos.DameAll();
+    public ArrayList<Usuario> dameListaTodos (){
+        _listaUsuarios = _datos.dameAll();
         return _listaUsuarios;
     }
     

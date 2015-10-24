@@ -8,6 +8,7 @@ package Modelo.Dao;
 import Modelo.Pelicula;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,7 +18,7 @@ import java.util.logging.Logger;
  * @author Feto
  */
 
-public class Pelicula_Dao extends DB implements Interface_Dao<Integer, Pelicula>{
+public class Pelicula_Dao extends DB implements Interface_Dao<Pelicula>{
 
     @Override
     public Pelicula agregar(Pelicula entidad) {
@@ -76,8 +77,8 @@ public class Pelicula_Dao extends DB implements Interface_Dao<Integer, Pelicula>
     }
 
     @Override
-    public HashMap<Integer, Pelicula> DameAll() {
-        HashMap tablaHash = new HashMap();
+    public ArrayList<Pelicula> dameAll() {
+        ArrayList <Pelicula> listaPeliculas = new ArrayList();
         Pelicula entidad = new Pelicula();
         try {
             conectar();
@@ -89,13 +90,13 @@ public class Pelicula_Dao extends DB implements Interface_Dao<Integer, Pelicula>
                 entidad.setGenero(getResultado().getString("genero"));
                 entidad.setClasificiacion(getResultado().getString("clasificacion"));
                 entidad.setDuracion(getResultado().getInt("duracion"));
-                tablaHash.put(entidad.getId_pelicula(), entidad);
+                listaPeliculas.add(entidad);
             }
             desconectar();
         } catch (SQLException ex) {
             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return tablaHash;
+        return listaPeliculas;
     }
 
     @Override

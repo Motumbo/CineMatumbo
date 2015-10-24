@@ -2,6 +2,7 @@
 package Modelo;
 
 import Modelo.Dao.Pelicula_Dao;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Pelicula {
@@ -48,39 +49,39 @@ public class Pelicula {
     }
     
     
-    ////////////////////////////////////////////// METODOS DE ALMACENAMIENTO CON Usuario_Dao DB /////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////// METODOS DE ALMACENAMIENTO CON Pelicula_Dao DB /////////////////////////////////////////////////////////////////
     
     
     private Pelicula_Dao _datos = new Pelicula_Dao();
-    private HashMap<Integer, Pelicula> _listaUsuarios = new HashMap<Integer, Pelicula>();
+    private ArrayList<Pelicula> _listaPeliculas = new ArrayList<Pelicula>();
     
-    public void agregarPelicula (Pelicula user){
-        _datos.agregar(user);
+    public void agregarPelicula (Pelicula entidad){
+        _datos.agregar(entidad);
     }
     
-    public void modificarPelicula (Pelicula user){
-        _datos.modificar(user);      
+    public void modificarPelicula (Pelicula entidad){
+        _datos.modificar(entidad);      
     }
     
-    public void borrarPelicula (Pelicula user){
-        _datos.borrar(user); 
+    public void borrarPelicula (Pelicula entidad){
+        _datos.borrar(entidad); 
     }
     
-    public HashMap<Integer, Pelicula> dameListaTodos (){
-        _listaUsuarios = _datos.DameAll();
-        return _listaUsuarios;
+    public ArrayList<Pelicula> dameListaTodos (){
+        _listaPeliculas = _datos.dameAll();
+        return _listaPeliculas;
     }
     
-    public Pelicula buscarPelicula (String username){
-        return _datos.dameXId(username);
+    public Pelicula buscarPelicula (String nombre){
+        return _datos.dameXId(nombre);
     }
     
-    public boolean existe (Pelicula user){
-        return _datos.existe(user);
+    public boolean existe (Pelicula entidad){
+        return _datos.existe(entidad);
     }
     
     
-    ////////////////////////////////////////////// METODOS DE ALMACENAMIENTO CON Usuario_Dao DB /////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////// METODOS DE ALMACENAMIENTO CON Pelicula_Dao DB /////////////////////////////////////////////////////////////////
     
     
 }
