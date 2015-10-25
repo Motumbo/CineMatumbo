@@ -74,36 +74,36 @@ public class Cine_Dao extends DB implements Interface_Dao<Cine>{
 
     @Override
     public ArrayList<Cine> dameAll() {
-        ArrayList listaPeliculas = new ArrayList<Cine>();
+        ArrayList listaCines = new ArrayList<Cine>();
         Cine entidad = new Cine();
         try {
             conectar();
             setSentencia(getConexion().createStatement());            
             setResultado( getSentencia().executeQuery("SELECT * FROM tbl_cines"));
             while(getResultado().next()){
-                entidad.setId_cine(getResultado().getInt("pk_pelicula"));
+                entidad.setId_cine(getResultado().getInt("pk_cine"));
                 entidad.setNombre(getResultado().getString("nombre"));
                 entidad.setCiudad(getResultado().getString("ciudad"));
-                listaPeliculas.add(entidad);
+                listaCines.add(entidad);
             }
             desconectar();
         } catch (SQLException ex) {
             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return listaPeliculas;
+        return listaCines;
     }
 
     @Override
     public Cine dameXId(String id) {
         Cine entidad = new Cine();
         try {
-            String query = "select * from tbl_cines where nombre = ? ;"; 
+            String query = "select * from tbl_cines where nombre = ? "; 
             conectar();
             PreparedStatement ps = super.getConexion().prepareStatement(query);
             ps.setString(1, id.toString());
             setResultado(ps.executeQuery());
             while(getResultado().next()){
-                entidad.setId_cine(getResultado().getInt("pk_pelicula"));
+                entidad.setId_cine(getResultado().getInt("pk_cine"));
                 entidad.setNombre(getResultado().getString("nombre"));
                 entidad.setCiudad(getResultado().getString("ciudad"));
             }
@@ -118,7 +118,7 @@ public class Cine_Dao extends DB implements Interface_Dao<Cine>{
     public boolean existe(Cine entidad) {
         String p = "";
         try {
-            String query = "select nombre from tbl_cines where nombre = ? ;";
+            String query = "select nombre from tbl_cines where nombre = ? ";
             conectar();
             PreparedStatement ps = super.getConexion().prepareStatement(query);
             ps.setString(1, entidad.getNombre());

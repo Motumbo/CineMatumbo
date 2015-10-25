@@ -86,8 +86,9 @@ public class Sala {
         return _listaSalas;
     }
     
-    static ArrayList<Sala> DameAllSalasCine(String nombreCine) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ArrayList<Sala> DameAllSalasCine(int id_Cine) {
+        _listaSalas = _datos.dameSalasCine(id_Cine);
+        return _listaSalas;
     }
     
     public Sala buscarSala (String nombre){

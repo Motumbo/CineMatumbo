@@ -101,7 +101,7 @@ public class Usuario_Dao extends DB implements Interface_Dao<Usuario>{
     public Usuario dameXId(String id) {
         Usuario user = new Usuario();
         try {
-            String query = "select username from tbl_usuarios where username = ? ;";
+            String query = "select username from tbl_usuarios where username = ?";
             conectar();
             PreparedStatement ps = super.getConexion().prepareStatement(query);
             ps.setString(1, id.toString());
@@ -122,7 +122,7 @@ public class Usuario_Dao extends DB implements Interface_Dao<Usuario>{
     public boolean existe(Usuario entidad) {
         String p = "";
         try {
-            String query = "select username from tbl_usuarios where username = ? ;";
+            String query = "select username from tbl_usuarios where username = ?";
             conectar();
             PreparedStatement ps = super.getConexion().prepareStatement(query);
             ps.setString(1, entidad.getUserName());

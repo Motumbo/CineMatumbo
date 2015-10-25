@@ -103,7 +103,7 @@ public class Pelicula_Dao extends DB implements Interface_Dao<Pelicula>{
     public Pelicula dameXId(String id) {
         Pelicula entidad = new Pelicula();
         try {
-            String query = "select * from tbl_peliculas where nombre = ? ;"; 
+            String query = "select * from tbl_peliculas where nombre = ?"; 
             conectar();
             PreparedStatement ps = super.getConexion().prepareStatement(query);
             ps.setString(1, id.toString());
@@ -126,7 +126,7 @@ public class Pelicula_Dao extends DB implements Interface_Dao<Pelicula>{
     public boolean existe(Pelicula entidad) {
         String p = "";
         try {
-            String query = "select nombre from tbl_peliculas where nombre = ? ;";
+            String query = "select nombre from tbl_peliculas where nombre = ?";
             conectar();
             PreparedStatement ps = super.getConexion().prepareStatement(query);
             ps.setString(1, entidad.getNombre());
