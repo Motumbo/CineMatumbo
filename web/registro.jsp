@@ -13,54 +13,44 @@
     </head>
     <body>
         <jsp:include page="topMenu.jsp" />
-        <form class="form-horizontal">
+        <form id="registerForm" class="form-horizontal" action="Control_Usuario">
             <fieldset>
+                <input type="hidden" name="accion" value="registrarse" />
                 <!-- Text input-->
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="textinput">Usuario</label>  
+                    <label class="col-md-4 control-label" for="usuario">Usuario</label>  
                     <div class="col-md-4">
-                        <input id="textinput" name="textinput" placeholder="Ingrese su nombre de usuario" class="form-control input-md" required="" type="text">
+                        <input id="textinput" name="usuario" placeholder="Ingrese su nombre de usuario" class="form-control input-md" required="" type="text">
 
                     </div>
                 </div>
 
-                <!-- Text input-->
+                <!-- Text input
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="textinput">E-Mail</label>  
+                    <label class="col-md-4 control-label" for="mail">E-Mail</label>  
                     <div class="col-md-4">
-                        <input id="textinput" name="textinput" placeholder="Ingrese su correo electrónico" class="form-control input-md" required="" type="text">
+                        <input id="textinput" name="mail" placeholder="Ingrese su correo electrónico" class="form-control input-md" required="" type="text">
 
                     </div>
                 </div>
-
+-->
                 <!-- Password input-->
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="passwordinput">Contraseña</label>
+                    <label class="col-md-4 control-label" for="password">Contraseña</label>
                     <div class="col-md-4">
-                        <input id="passwordinput" name="passwordinput" placeholder="Ingrese su contraseña" class="form-control input-md" required="" type="password">
+                        <input id="passwordinput" name="password" placeholder="Ingrese su contraseña" class="form-control input-md" required="" type="password">
 
                     </div>
                 </div>
-
-                <!-- Password input-->
-                <div class="form-group">
-                    <label class="col-md-4 control-label" for="passwordinput">Repetir contraseña</label>
-                    <div class="col-md-4">
-                        <input id="passwordinput" name="passwordinput" placeholder="Vuelva a ingresar su contraseña" class="form-control input-md" required="" type="password">
-
-                    </div>
-                </div>
-
+                
                 <!-- Button -->
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="singlebutton"></label>
                     <div class="col-md-4">
-                        <button id="singlebutton" name="singlebutton" class="btn btn-primary">Crear cuenta</button>
+                        <button id="singlebutton" type="submit" value="registro" name="singlebutton" class="btn btn-primary">Crear cuenta</button>
                     </div>
                 </div>
-
             </fieldset>
         </form>
-
     </body>
 </html>

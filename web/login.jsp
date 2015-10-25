@@ -12,23 +12,24 @@
         <title>Log in</title>
     </head>
     <body>
-        <%@include file="topMenu.jsp" %>
-        <form class="form-horizontal">
+        <jsp:include page="topMenu.jsp" />
+        <form id="loginForm" class="form-horizontal" action="Control_Usuario">
             <fieldset>
+                <input type="hidden" name="accion" value="login" />
                 <!-- Text input-->
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="userinput">Usuario</label>  
+                    <label class="col-md-4 control-label" for="usuario">Usuario</label>  
                     <div class="col-md-4">
-                        <input id="userinput" name="userinput" placeholder="Ingrese su nombre de usuario" class="form-control input-md" required="" type="text">
+                        <input id="userinput" name="usuario" placeholder="Ingrese su nombre de usuario" class="form-control input-md" required="" type="text">
 
                     </div>
                 </div>
 
                 <!-- Password input-->
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="passwordinput">Contraseña</label>
+                    <label class="col-md-4 control-label" for="password">Contraseña</label>
                     <div class="col-md-4">
-                        <input id="passwordinput" name="passwordinput" placeholder="Ingrese su contraseña" class="form-control input-md" required="" type="password">
+                        <input id="passwordinput" name="password" placeholder="Ingrese su contraseña" class="form-control input-md" required="" type="password">
 
                     </div>
                 </div>
@@ -37,7 +38,7 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="loginbutton"></label>
                     <div class="col-md-4">
-                        <button id="loginbutton" name="loginbutton" class="btn btn-primary">Log in</button>
+                        <button id="loginbutton" value="login" type="submit" name="loginbutton" class="btn btn-primary">Log in</button>
                     </div>
                 </div>
 
