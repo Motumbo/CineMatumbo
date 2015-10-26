@@ -1,34 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Modelo.Dao;
 
 import Modelo.Usuario;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Feto
- */
-public class Usuario_Dao extends DB implements Interface_Dao<Usuario>{
+public class Usuario_Dao extends DB implements Interface_Dao<Usuario> {
 
     @Override
     public Usuario agregar(Usuario entidad) {
         if (!this.existe(entidad)) {
             try {
-                String query = "insert into tbl_usuarios (username, password, categoria) values(?,?,?)";
+                String query = "INSERT INTO tbl_usuarios (username, password, categoria, email) values(?, ?, ?, ?)";
                 conectar();
                 PreparedStatement ps = getConexion().prepareStatement(query);
                 ps.setString(1, entidad.getUserName());
                 ps.setString(2, entidad.getPass());
                 ps.setString(3, entidad.getCategoria());
+                ps.setString(4, entidad.getMail());
                 ps.execute();
                 desconectar();
             } catch (SQLException ex) {
@@ -42,12 +33,14 @@ public class Usuario_Dao extends DB implements Interface_Dao<Usuario>{
     public Usuario modificar(Usuario entidad) {
         if (this.existe(entidad)) {
             try {
-                String query = "update tbl_usuarios set password = ? and set categoria = ? where username = ?";
+                String query = "UPDATE tbl_usuarios SET username = ?, password = ?, categoria = ?, email = ? WHERE pk_usuario = ?";
                 conectar();
                 PreparedStatement ps = getConexion().prepareStatement(query);
-                ps.setString(1, entidad.getPass());
-                ps.setString(2, entidad.getCategoria());
-                ps.setString(3, entidad.getUserName());  
+                ps.setString(1, entidad.getUserName());
+                ps.setString(2, entidad.getPass());
+                ps.setString(3, entidad.getCategoria());
+                ps.setString(4, entidad.getMail());
+                ps.setInt(5, entidad.getIdUsuario());
                 ps.execute();
                 desconectar();
             } catch (SQLException ex) {
@@ -58,20 +51,20 @@ public class Usuario_Dao extends DB implements Interface_Dao<Usuario>{
     }
 
     @Override
-    public void borrar(Usuario entidad) {      
+    public void borrar(Usuario entidad) {
         if (!this.existe(entidad)) {
             try {
-                String query = "DELETE FROM tbl_usuarios WHERE username = ?";
+                String query = "DELETE FROM tbl_usuarios WHERE pk_usuario = ?";
                 conectar();
                 PreparedStatement ps = getConexion().prepareStatement(query);
-                ps.setString(1, entidad.getUserName());
+                ps.setInt(1, entidad.getIdUsuario());
                 ps.execute();
                 desconectar();
             } catch (SQLException ex) {
                 Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
     }
 
     @Override
@@ -80,14 +73,13 @@ public class Usuario_Dao extends DB implements Interface_Dao<Usuario>{
         Usuario entidad = new Usuario();
         try {
             conectar();
-            setSentencia(getConexion().createStatement());            
-            setResultado( getSentencia().executeQuery("SELECT * FROM tbl_usuarios"));
-            while(getResultado().next()){
-                
-                entidad.setId_usuario(getResultado().getInt("pk_usuario"));
+            setSentencia(getConexion().createStatement());
+            setResultado(getSentencia().executeQuery("SELECT * FROM tbl_usuarios"));
+            while (getResultado().next()) {
+                entidad.setIdUsuario(getResultado().getInt("pk_usuario"));
                 entidad.setUserName(getResultado().getString("username"));
                 entidad.setCategoria(getResultado().getString("categoria"));
-                
+                entidad.setMail(getResultado().getString("email"));
                 listaUsuarios.add(entidad);
             }
             desconectar();
@@ -99,30 +91,31 @@ public class Usuario_Dao extends DB implements Interface_Dao<Usuario>{
 
     @Override
     public Usuario dameXId(String id) {
-        Usuario user = new Usuario();
+        Usuario entidad = new Usuario();
         try {
-            String query = "select username from tbl_usuarios where username = ?";
+            String query = "SELECT username FROM tbl_usuarios WHERE username = ?";
             conectar();
             PreparedStatement ps = super.getConexion().prepareStatement(query);
-            ps.setString(1, id.toString());
+            ps.setString(1, id);
             super.setResultado(ps.executeQuery());
             while (super.getResultado().next()) {
-                user.setUserName(super.getResultado().getString("username"));
-                user.setPass(super.getResultado().getString("password"));
-                user.setCategoria(super.getResultado().getString("categoria"));
+                entidad.setUserName(super.getResultado().getString("username"));
+                entidad.setPass(super.getResultado().getString("password"));
+                entidad.setCategoria(super.getResultado().getString("categoria"));
+                entidad.setMail(getResultado().getString("email"));
             }
             desconectar();
         } catch (SQLException ex) {
             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return (user);
+        return (entidad);
     }
 
     @Override
     public boolean existe(Usuario entidad) {
         String p = "";
         try {
-            String query = "select username from tbl_usuarios where username = ?";
+            String query = "SELECT username FROM tbl_usuarios WHERE username = ?";
             conectar();
             PreparedStatement ps = super.getConexion().prepareStatement(query);
             ps.setString(1, entidad.getUserName());

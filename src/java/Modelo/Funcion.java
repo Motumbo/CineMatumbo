@@ -1,19 +1,19 @@
-
 package Modelo;
 
 import java.sql.Timestamp;
 
 class Funcion {
-    private int _id_funcion;
-    private Pelicula _pelicula;
-    private Timestamp _horarioInicio;
 
-    public int getId_funcion() {
-        return _id_funcion;
+    private int _idFuncion;
+    private Pelicula _pelicula;
+    private Timestamp _fechaHoraInicio;
+
+    public int getIdFuncion() {
+        return _idFuncion;
     }
 
-    public void setId_funcion(int _id_funcion) {
-        this._id_funcion = _id_funcion;
+    public void setIdFuncion(int _idFuncion) {
+        this._idFuncion = _idFuncion;
     }
 
     public Pelicula getPelicula() {
@@ -24,12 +24,12 @@ class Funcion {
         this._pelicula = _pelicula;
     }
 
-    public Timestamp getHorarioInicio() {
-        return _horarioInicio;
+    public Timestamp getFechaHoraInicio() {
+        return _fechaHoraInicio;
     }
 
-    public void setHorarioInicio(Timestamp _horarioInicio) {
-        this._horarioInicio = _horarioInicio;
+    public void setFechaHoraInicio(Timestamp _fechaHoraInicio) {
+        this._fechaHoraInicio = _fechaHoraInicio;
     }
-    
+
 }

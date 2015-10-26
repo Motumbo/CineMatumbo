@@ -1,26 +1,23 @@
-
 package Modelo;
 
 import Modelo.Dao.Sala_Dao;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class Sala {
 
-    private int _id_sala;
+    private int _idSala;
     private String _nombre;
     private int _filas;
     private int _columnas;
     private int _tiempoLimpieza;
-    private ArrayList <Funcion> _listaFunciones;
+    private ArrayList<Funcion> _listaFunciones;
 
-    public int getId_sala() {
-        return _id_sala;
+    public int getIdSala() {
+        return _idSala;
     }
 
-    public void setId_sala(int _id_sala) {
-        this._id_sala = _id_sala;
+    public void setIdSala(int _idSala) {
+        this._idSala = _idSala;
     }
 
     public String getNombre() {
@@ -55,53 +52,47 @@ public class Sala {
         this._tiempoLimpieza = _tiempoLimpieza;
     }
 
-    public ArrayList <Funcion> getListaFunciones() {
+    public ArrayList<Funcion> getListaFunciones() {
         return _listaFunciones;
     }
 
-    public void setListaFunciones(ArrayList <Funcion> _listaFunciones) {
+    public void setListaFunciones(ArrayList<Funcion> _listaFunciones) {
         this._listaFunciones = _listaFunciones;
     }
-    
+
     ////////////////////////////////////////////// METODOS DE ALMACENAMIENTO CON Sala_Dao DB /////////////////////////////////////////////////////////////////
-    
-    
     private Sala_Dao _datos = new Sala_Dao();
     private ArrayList<Sala> _listaSalas = new ArrayList<Sala>();
-    
-    public void agregarSala (Sala entidad){
+
+    public void agregarSala(Sala entidad) {
         _datos.agregar(entidad);
     }
-    
-    public void modificarSala (Sala entidad){
-        _datos.modificar(entidad);      
+
+    public void modificarSala(Sala entidad) {
+        _datos.modificar(entidad);
     }
-    
-    public void borrarSala (Sala entidad){
-        _datos.borrar(entidad); 
+
+    public void borrarSala(Sala entidad) {
+        _datos.borrar(entidad);
     }
-    
-    public ArrayList<Sala> dameListaTodos (){
+
+    public ArrayList<Sala> dameListaTodos() {
         _listaSalas = _datos.dameAll();
         return _listaSalas;
     }
-    
+
     public ArrayList<Sala> DameAllSalasCine(int id_Cine) {
         _listaSalas = _datos.dameSalasCine(id_Cine);
         return _listaSalas;
     }
-    
-    public Sala buscarSala (String nombre){
+
+    public Sala buscarSala(String nombre) {
         return _datos.dameXId(nombre);
     }
-    
-    public boolean existe (Sala entidad){
+
+    public boolean existe(Sala entidad) {
         return _datos.existe(entidad);
     }
-    
-    
-    ////////////////////////////////////////////// METODOS DE ALMACENAMIENTO CON Sala_Dao DB /////////////////////////////////////////////////////////////////
 
-    
-    
+    ////////////////////////////////////////////// METODOS DE ALMACENAMIENTO CON Sala_Dao DB /////////////////////////////////////////////////////////////////
 }

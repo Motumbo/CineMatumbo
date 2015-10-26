@@ -1,30 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Modelo.Dao;
 
 import Modelo.Cine;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Feto
- */
-public class Cine_Dao extends DB implements Interface_Dao<Cine>{
+public class Cine_Dao extends DB implements Interface_Dao<Cine> {
 
     @Override
     public Cine agregar(Cine entidad) {
         if (!this.existe(entidad)) {
             try {
-                String query = "insert into tbl_cines (nombre, ciudad) values(?,?)";
+                String query = "INSERT INTO tbl_cines (nombre, ciudad) VALUES (?, ?)";
                 conectar();
                 PreparedStatement ps = getConexion().prepareStatement(query);
                 ps.setString(1, entidad.getNombre());
@@ -42,11 +31,12 @@ public class Cine_Dao extends DB implements Interface_Dao<Cine>{
     public Cine modificar(Cine entidad) {
         if (this.existe(entidad)) {
             try {
-                String query = "update tbl_cines set ciudad = ? where nombre = ?";
+                String query = "UPDATE tbl_cines SET nombre = ?, ciudad = ? WHERE pk_cine = ?";
                 conectar();
                 PreparedStatement ps = getConexion().prepareStatement(query);
-                ps.setString(1, entidad.getCiudad());
-                ps.setString(2, entidad.getNombre());
+                ps.setString(1, entidad.getNombre());
+                ps.setString(2, entidad.getCiudad());
+                ps.setInt(3, entidad.getIdCine());
                 ps.execute();
                 desconectar();
             } catch (SQLException ex) {
@@ -60,10 +50,10 @@ public class Cine_Dao extends DB implements Interface_Dao<Cine>{
     public void borrar(Cine entidad) {
         if (!this.existe(entidad)) {
             try {
-                String query = "DELETE FROM tbl_cines WHERE nombre = ?";
+                String query = "DELETE FROM tbl_cines WHERE pk_cine = ?";
                 conectar();
                 PreparedStatement ps = getConexion().prepareStatement(query);
-                ps.setString(1, entidad.getNombre());
+                ps.setInt(1, entidad.getIdCine());
                 ps.execute();
                 desconectar();
             } catch (SQLException ex) {
@@ -78,10 +68,10 @@ public class Cine_Dao extends DB implements Interface_Dao<Cine>{
         Cine entidad = new Cine();
         try {
             conectar();
-            setSentencia(getConexion().createStatement());            
-            setResultado( getSentencia().executeQuery("SELECT * FROM tbl_cines"));
-            while(getResultado().next()){
-                entidad.setId_cine(getResultado().getInt("pk_cine"));
+            setSentencia(getConexion().createStatement());
+            setResultado(getSentencia().executeQuery("SELECT * FROM tbl_cines"));
+            while (getResultado().next()) {
+                entidad.setIdCine(getResultado().getInt("pk_cine"));
                 entidad.setNombre(getResultado().getString("nombre"));
                 entidad.setCiudad(getResultado().getString("ciudad"));
                 listaCines.add(entidad);
@@ -97,13 +87,13 @@ public class Cine_Dao extends DB implements Interface_Dao<Cine>{
     public Cine dameXId(String id) {
         Cine entidad = new Cine();
         try {
-            String query = "select * from tbl_cines where nombre = ? "; 
+            String query = "SELECT * FROM tbl_cines WHERE nombre = ?";
             conectar();
             PreparedStatement ps = super.getConexion().prepareStatement(query);
-            ps.setString(1, id.toString());
+            ps.setString(1, id);
             setResultado(ps.executeQuery());
-            while(getResultado().next()){
-                entidad.setId_cine(getResultado().getInt("pk_cine"));
+            while (getResultado().next()) {
+                entidad.setIdCine(getResultado().getInt("pk_cine"));
                 entidad.setNombre(getResultado().getString("nombre"));
                 entidad.setCiudad(getResultado().getString("ciudad"));
             }
@@ -118,7 +108,7 @@ public class Cine_Dao extends DB implements Interface_Dao<Cine>{
     public boolean existe(Cine entidad) {
         String p = "";
         try {
-            String query = "select nombre from tbl_cines where nombre = ? ";
+            String query = "SELECT nombre FROM tbl_cines WHERE nombre = ?";
             conectar();
             PreparedStatement ps = super.getConexion().prepareStatement(query);
             ps.setString(1, entidad.getNombre());
@@ -132,5 +122,5 @@ public class Cine_Dao extends DB implements Interface_Dao<Cine>{
         }
         return (!"".equals(p));
     }
-    
+
 }
