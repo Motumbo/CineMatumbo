@@ -95,13 +95,14 @@ public class Usuario_Dao extends DB implements Interface_Dao<Usuario> {
         try {
             String query = "SELECT username FROM tbl_usuarios WHERE username = ?";
             conectar();
-            PreparedStatement ps = super.getConexion().prepareStatement(query);
+            PreparedStatement ps = getConexion().prepareStatement(query);
             ps.setString(1, id);
-            super.setResultado(ps.executeQuery());
-            while (super.getResultado().next()) {
-                entidad.setUserName(super.getResultado().getString("username"));
-                entidad.setPass(super.getResultado().getString("password"));
-                entidad.setCategoria(super.getResultado().getString("categoria"));
+            setResultado(ps.executeQuery());
+            while (getResultado().next()) {
+                entidad.setIdUsuario(getResultado().getInt("pk_usuario"));
+                entidad.setUserName(getResultado().getString("username"));
+                entidad.setPass(getResultado().getString("password"));
+                entidad.setCategoria(getResultado().getString("categoria"));
                 entidad.setMail(getResultado().getString("email"));
             }
             desconectar();
@@ -117,11 +118,11 @@ public class Usuario_Dao extends DB implements Interface_Dao<Usuario> {
         try {
             String query = "SELECT username FROM tbl_usuarios WHERE username = ?";
             conectar();
-            PreparedStatement ps = super.getConexion().prepareStatement(query);
+            PreparedStatement ps = getConexion().prepareStatement(query);
             ps.setString(1, entidad.getUserName());
-            super.setResultado(ps.executeQuery());
-            while (super.getResultado().next()) {
-                p = super.getResultado().getString("username");
+            setResultado(ps.executeQuery());
+            while (getResultado().next()) {
+                p = getResultado().getString("username");
             }
             desconectar();
         } catch (SQLException ex) {

@@ -38,7 +38,7 @@ $(document).ready(function () {
             data: gridData,
             schema: {
                 fields: {
-                    //id: {path: "id", type: Number},
+                    id: {path: "id", type: Number},
                     nombre: {path: "nombre", type: String},
                     email: {path: "email", type: String},
                     categoria: {path: "categoria", type: String}

@@ -2,33 +2,17 @@ var gridData =
         [
             {
                 "id": 0,
-                "nombre": "Nico Kaker",
-                "email": "nico@gmail.com",
-                "categoria": "admin"
+                "nombre": "Sala uno",
+                "filas": 50,
+                "columnas": 50,
+                "tiempoLimpieza": 20
             },
             {
                 "id": 1,
-                "nombre": "Guido Suller",
-                "email": "guido@hotmail.com",
-                "categoria": "admin"
-            },
-            {
-                "id": 2,
-                "nombre": "Miller Gomez",
-                "email": "millergomez@quilm.com",
-                "categoria": "usuario"
-            },
-            {
-                "id": 3,
-                "nombre": "Teniente Dan",
-                "email": "blabla@gilquesobra.com",
-                "categoria": "usuario"
-            },
-            {
-                "id": 4,
-                "nombre": "Paco Cero",
-                "email": "gomamon@arrobapunto.com",
-                "categoria": "usuario"
+                "nombre": "Sala dos",
+                "filas": 40,
+                "columnas": 60,
+                "tiempoLimpieza": 15
             }
         ];
 
@@ -38,11 +22,11 @@ $(document).ready(function () {
             data: gridData,
             schema: {
                 fields: {
-                    //id: {path: "id", type: Number},
+                    id: {path: "id", type: Number},
                     nombre: {path: "nombre", type: String},
-                    filas: {path: "filas", type: int},
-                    columnas: {path: "columnas", type: int},
-                    tiempoLimpieza: {path: "tiempoLimpieza", type: int}
+                    filas: {path: "filas", type: Number},
+                    columnas: {path: "columnas", type: Number},
+                    tiempoLimpieza: {path: "tiempoLimpieza", type: Number}
                 }
             }
         },

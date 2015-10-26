@@ -136,11 +136,11 @@ public class Sala_Dao extends DB implements Interface_Dao<Sala> {
         try {
             String query = "SELECT nombre FROM tbl_salas WHERE nombre = ? ";
             conectar();
-            PreparedStatement ps = super.getConexion().prepareStatement(query);
+            PreparedStatement ps = getConexion().prepareStatement(query);
             ps.setString(1, entidad.getNombre());
-            super.setResultado(ps.executeQuery());
-            while (super.getResultado().next()) {
-                p = super.getResultado().getString("nombre");
+            setResultado(ps.executeQuery());
+            while (getResultado().next()) {
+                p = getResultado().getString("nombre");
             }
             desconectar();
         } catch (SQLException ex) {

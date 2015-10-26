@@ -89,7 +89,7 @@ public class Cine_Dao extends DB implements Interface_Dao<Cine> {
         try {
             String query = "SELECT * FROM tbl_cines WHERE nombre = ?";
             conectar();
-            PreparedStatement ps = super.getConexion().prepareStatement(query);
+            PreparedStatement ps = getConexion().prepareStatement(query);
             ps.setString(1, id);
             setResultado(ps.executeQuery());
             while (getResultado().next()) {
@@ -110,11 +110,11 @@ public class Cine_Dao extends DB implements Interface_Dao<Cine> {
         try {
             String query = "SELECT nombre FROM tbl_cines WHERE nombre = ?";
             conectar();
-            PreparedStatement ps = super.getConexion().prepareStatement(query);
+            PreparedStatement ps = getConexion().prepareStatement(query);
             ps.setString(1, entidad.getNombre());
-            super.setResultado(ps.executeQuery());
-            while (super.getResultado().next()) {
-                p = super.getResultado().getString("nombre");
+            setResultado(ps.executeQuery());
+            while (getResultado().next()) {
+                p = getResultado().getString("nombre");
             }
             desconectar();
         } catch (SQLException ex) {
