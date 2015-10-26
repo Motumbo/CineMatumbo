@@ -10,6 +10,14 @@ public class Cine {
     private String _ciudad;
     private ArrayList<Sala> _listaSalas;
 
+    public Cine() {
+        setIdCine(0);
+        setNombre("");
+        setCiudad("");
+        setListaSalas(null);
+    }
+    
+    
     public int getIdCine() {
         return _idCine;
     }

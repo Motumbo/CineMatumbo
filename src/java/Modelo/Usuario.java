@@ -20,15 +20,19 @@ public class Usuario {
     }
 
     public Usuario(String newUsername, String newPassword) {
+        setIdUsuario(0);
         setUserName(newUsername);
         setPass(newPassword);
+        setCategoria("");
+        setMail("");
     }
 
     public Usuario(String newUsername, String newPassword, String newMail) {
+        setIdUsuario(0);
         setUserName(newUsername);
         setPass(newPassword);
-        setMail(newMail);
         setCategoria("cliente");
+        setMail(newMail);
     }
 
     public int getIdUsuario() {
