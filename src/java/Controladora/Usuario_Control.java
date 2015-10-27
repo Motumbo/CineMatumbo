@@ -36,11 +36,11 @@ public class Usuario_Control extends HttpServlet {
     }
 
     private void registrarse(HttpServletRequest request, HttpSession session, HttpServletResponse response) throws IOException {
-        Usuario user = new Usuario(request.getParameter("usuario"), request.getParameter("password"), request.getParameter("mail"));
+        Usuario user = new Usuario(request.getParameter("usuarioRegistro"), request.getParameter("passwordRegistro"), request.getParameter("mailRegistro"));
         if (user != null) {
+            _usuarioConectado.agregarUsuario(user);
             session.setAttribute("usuarioConectado", user);
             response.sendRedirect("index.jsp");
-            _usuarioConectado.agregarUsuario(user);
         } else {
             response.sendRedirect("registro.jsp");
         }

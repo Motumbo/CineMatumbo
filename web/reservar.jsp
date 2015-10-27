@@ -6,6 +6,6 @@
     </head>
     <body>
         <jsp:include page="topMenu.jsp" />
-        <h1 style="text-align: center">index</h1>
+        <h1 style="text-align: center">reservar</h1>
     </body>
 </html>

@@ -45,7 +45,7 @@
                                             <li><a href="gestionPeliculas.jsp">Gestionar películas</a></li>
                                             <li><a href="gestionFunciones.jsp">Gestionar funciones</a></li>
                                             </c:when>
-                                            <c:when test="${usuarioConectado.categoria eq 'usuario'}">
+                                            <c:when test="${usuarioConectado.categoria eq 'cliente'}">
                                             <li><a href="cartelera.jsp">Cartelera</a></li>
                                             <li><a href="reservar.jsp">Reservar entradas</a></li>
                                             <li><a href="misReservas.jsp">Mis reservas</a></li>
