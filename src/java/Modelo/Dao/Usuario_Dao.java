@@ -93,7 +93,7 @@ public class Usuario_Dao extends DB implements Interface_Dao<Usuario> {
     public Usuario dameXId(String id) {
         Usuario entidad = new Usuario();
         try {
-            String query = "SELECT username FROM tbl_usuarios WHERE username = ?";
+            String query = "SELECT * FROM tbl_usuarios WHERE username = ?";
             conectar();
             PreparedStatement ps = getConexion().prepareStatement(query);
             ps.setString(1, id);

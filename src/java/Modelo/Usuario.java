@@ -78,7 +78,7 @@ public class Usuario {
     public Usuario validarLogIn(String newUsername, String newPassword) {
         Usuario logInUser = new Usuario();
         logInUser = this.buscarUsuario(newUsername);
-        if (logInUser.getPass() == newPassword) {
+        if (logInUser.getPass().equals(newPassword)) {
             return logInUser;
         } else {
             return null;

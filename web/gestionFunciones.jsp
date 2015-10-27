@@ -6,6 +6,6 @@
     </head>
     <body>
         <jsp:include page="topMenu.jsp" />
-        <h1 style="text-align: center">gestoinFunciones</h1>
+        <h1 style="text-align: center">gestionFunciones</h1>
     </body>
 </html>

@@ -29,6 +29,9 @@ public class Usuario_Control extends HttpServlet {
             case "registro":
                 this.registrarse(request, session, response);
                 break;
+            case "Log out":
+                this.logout(request, response);
+                break;
         }
     }
 
@@ -44,15 +47,19 @@ public class Usuario_Control extends HttpServlet {
     }
 
     private void login(HttpServletRequest request, HttpSession session, HttpServletResponse response) throws IOException {
-        Usuario user = null;
-        user = _usuarioConectado.validarLogIn(request.getParameter("usuario"), request.getParameter("password"));
+        Usuario user = new Usuario();
+        user = _usuarioConectado.validarLogIn(request.getParameter("usuarioLogin"), request.getParameter("passwordLogin"));
         if (user != null) {
             session.setAttribute("usuarioConectado", user);
             response.sendRedirect("index.jsp");
-        }
-        else{
+        } else {
             response.sendRedirect("login.jsp");
         }
+    }
+
+    private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getSession().invalidate();
+        response.sendRedirect("index.jsp");
     }
 
     @Override

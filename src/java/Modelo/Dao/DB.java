@@ -16,7 +16,7 @@ public class DB {
 
     public void conectar() {
         try {
-            Class.forName("com.mysql.jdbc.driver");
+            Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
         }
