@@ -2,6 +2,7 @@ package Controladora;
 
 import Modelo.Usuario;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpSession;
 public class Usuario_Control extends HttpServlet {
 
     private Usuario _usuarioConectado = new Usuario();
+    private ArrayList<Usuario> _listaUsuarios = new ArrayList<Usuario>();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -32,9 +34,17 @@ public class Usuario_Control extends HttpServlet {
             case "Log out":
                 this.logout(request, response);
                 break;
+            case "listar":
+                this.listarUsuarios(request);
+                break;
         }
     }
 
+    private void listarUsuarios(HttpServletRequest request){
+        setListaUsuarios(_usuarioConectado.dameListaTodos());
+        request.getServletContext().setAttribute("listaUsuarios", getListaUsuarios());
+    }
+    
     private void registrarse(HttpServletRequest request, HttpSession session, HttpServletResponse response) throws IOException {
         Usuario user = new Usuario(request.getParameter("usuarioRegistro"), request.getParameter("passwordRegistro"), request.getParameter("mailRegistro"));
         if (user != null) {
@@ -77,6 +87,14 @@ public class Usuario_Control extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
+    }
+
+    public ArrayList<Usuario> getListaUsuarios() {
+        return _listaUsuarios;
+    }
+
+    public void setListaUsuarios(ArrayList<Usuario> _listaUsuarios) {
+        this._listaUsuarios = _listaUsuarios;
     }
 
 }

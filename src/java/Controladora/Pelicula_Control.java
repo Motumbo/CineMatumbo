@@ -17,10 +17,11 @@ public class Pelicula_Control extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession(true);
         String accion = request.getParameter("accion");
-        if (accion.equals("crearPelicula")) {
-
-        } else if (accion.equals("eliminarPelicula")) {
-
+        switch (accion) {
+            case "crearPelicula":
+                break;
+            case "eliminarPelicula":
+                break;
         }
     }
 

@@ -1,37 +1,3 @@
-var gridData =
-        [
-            {
-                "id": 0,
-                "nombre": "Nico Kaker",
-                "email": "nico@gmail.com",
-                "categoria": "admin"
-            },
-            {
-                "id": 1,
-                "nombre": "Guido Suller",
-                "email": "guido@hotmail.com",
-                "categoria": "admin"
-            },
-            {
-                "id": 2,
-                "nombre": "Miller Gomez",
-                "email": "millergomez@quilm.com",
-                "categoria": "usuario"
-            },
-            {
-                "id": 3,
-                "nombre": "Teniente Dan",
-                "email": "blabla@gilquesobra.com",
-                "categoria": "usuario"
-            },
-            {
-                "id": 4,
-                "nombre": "Paco Cero",
-                "email": "gomamon@arrobapunto.com",
-                "categoria": "usuario"
-            }
-        ];
-
 $(document).ready(function () {
     $("#grid").shieldGrid({
         dataSource: {
