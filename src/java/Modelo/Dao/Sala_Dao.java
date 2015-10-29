@@ -62,7 +62,7 @@ public class Sala_Dao extends DB implements Interface_Dao<Sala> {
 
     @Override
     public ArrayList<Sala> dameAll() {
-        ArrayList listaSalas = new ArrayList<Sala>();
+        ArrayList listaSalas = new ArrayList();
         Sala entidad = new Sala();
         try {
             conectar();
@@ -84,7 +84,7 @@ public class Sala_Dao extends DB implements Interface_Dao<Sala> {
     }
 
     public ArrayList<Sala> dameSalasCine(int fk_IdCine) {
-        ArrayList<Sala> salasDeUnCine = new ArrayList<Sala>();
+        ArrayList<Sala> salasDeUnCine = new ArrayList<>();
         Sala entidad = new Sala();
         try {
             String query = "SELECT * FROM tbl_salas WHERE fk_cine = ?";

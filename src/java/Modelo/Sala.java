@@ -62,7 +62,7 @@ public class Sala {
 
     ////////////////////////////////////////////// METODOS DE ALMACENAMIENTO CON Sala_Dao DB /////////////////////////////////////////////////////////////////
     private Sala_Dao _datos = new Sala_Dao();
-    private ArrayList<Sala> _listaSalas = new ArrayList<Sala>();
+    private ArrayList<Sala> _listaSalas = new ArrayList();
 
     public void agregarSala(Sala entidad) {
         _datos.agregar(entidad);

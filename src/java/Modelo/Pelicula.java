@@ -62,7 +62,7 @@ public class Pelicula {
 
     ////////////////////////////////////////////// METODOS DE ALMACENAMIENTO CON Pelicula_Dao DB /////////////////////////////////////////////////////////////////
     private Pelicula_Dao _datos = new Pelicula_Dao();
-    private ArrayList<Pelicula> _listaPeliculas = new ArrayList<Pelicula>();
+    private ArrayList<Pelicula> _listaPeliculas = new ArrayList();
 
     public void agregarPelicula(Pelicula entidad) {
         _datos.agregar(entidad);

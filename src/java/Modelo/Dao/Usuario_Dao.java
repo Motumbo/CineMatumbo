@@ -70,12 +70,12 @@ public class Usuario_Dao extends DB implements Interface_Dao<Usuario> {
     @Override
     public ArrayList<Usuario> dameAll() {
         ArrayList listaUsuarios = new ArrayList();
-        Usuario entidad = new Usuario();
         try {
             conectar();
             setSentencia(getConexion().createStatement());
             setResultado(getSentencia().executeQuery("SELECT * FROM tbl_usuarios"));
             while (getResultado().next()) {
+                Usuario entidad = new Usuario();
                 entidad.setIdUsuario(getResultado().getInt("pk_usuario"));
                 entidad.setUserName(getResultado().getString("username"));
                 entidad.setCategoria(getResultado().getString("categoria"));

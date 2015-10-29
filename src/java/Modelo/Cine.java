@@ -56,7 +56,7 @@ public class Cine {
 
     ////////////////////////////////////////////// METODOS DE ALMACENAMIENTO CON Cine_Dao DB /////////////////////////////////////////////////////////////////
     private Cine_Dao _datos = new Cine_Dao();
-    private ArrayList<Cine> _listaCines = new ArrayList<Cine>();
+    private ArrayList<Cine> _listaCines = new ArrayList();
 
     private Sala _sala = new Sala();
 

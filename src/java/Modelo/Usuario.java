@@ -87,7 +87,7 @@ public class Usuario {
 
     ////////////////////////////////////////////// METODOS DE ALMACENAMIENTO CON Usuario_Dao DB /////////////////////////////////////////////////////////////////
     private Usuario_Dao _datos = new Usuario_Dao();
-    private ArrayList<Usuario> _listaUsuarios = new ArrayList<Usuario>();
+    private ArrayList _listaUsuarios = new ArrayList();
 
     public void agregarUsuario(Usuario user) {
         if (!user.existe(user)) {
@@ -107,7 +107,7 @@ public class Usuario {
         }
     }
 
-    public ArrayList<Usuario> dameListaTodos() {
+    public ArrayList dameListaTodos() {
         _listaUsuarios = _datos.dameAll();
         return _listaUsuarios;
     }

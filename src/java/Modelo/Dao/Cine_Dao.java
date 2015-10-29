@@ -64,7 +64,7 @@ public class Cine_Dao extends DB implements Interface_Dao<Cine> {
 
     @Override
     public ArrayList<Cine> dameAll() {
-        ArrayList listaCines = new ArrayList<Cine>();
+        ArrayList listaCines = new ArrayList();
         Cine entidad = new Cine();
         try {
             conectar();

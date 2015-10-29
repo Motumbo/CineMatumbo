@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 public class Usuario_Control extends HttpServlet {
 
     private Usuario _usuarioConectado = new Usuario();
-    private ArrayList<Usuario> _listaUsuarios = new ArrayList<Usuario>();
+    private ArrayList _listaUsuarios = new ArrayList();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -33,18 +33,19 @@ public class Usuario_Control extends HttpServlet {
                 break;
             case "Log out":
                 this.logout(request, response);
-                break;
+                break;/*
             case "listar":
                 this.listarUsuarios(request);
-                break;
+                break;*/
         }
     }
-
+/*
     private void listarUsuarios(HttpServletRequest request){
         setListaUsuarios(_usuarioConectado.dameListaTodos());
-        request.getServletContext().setAttribute("listaUsuarios", getListaUsuarios());
+        //request.getServletContext().setAttribute("listaUsuarios", getListaUsuarios());
+        request.setAttribute("listaUsuarios", getListaUsuarios());
     }
-    
+    */
     private void registrarse(HttpServletRequest request, HttpSession session, HttpServletResponse response) throws IOException {
         Usuario user = new Usuario(request.getParameter("usuarioRegistro"), request.getParameter("passwordRegistro"), request.getParameter("mailRegistro"));
         if (user != null) {
@@ -76,6 +77,8 @@ public class Usuario_Control extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        
+        request.setAttribute("listaUsuarios", getListaUsuarios());
     }
 
     @Override
@@ -89,12 +92,13 @@ public class Usuario_Control extends HttpServlet {
         return "Short description";
     }
 
-    public ArrayList<Usuario> getListaUsuarios() {
+    public ArrayList getListaUsuarios() {
+        setListaUsuarios(_usuarioConectado.dameListaTodos());
         return _listaUsuarios;
     }
 
-    public void setListaUsuarios(ArrayList<Usuario> _listaUsuarios) {
-        this._listaUsuarios = _listaUsuarios;
+    public void setListaUsuarios(ArrayList listaUsuarios) {
+        this._listaUsuarios = listaUsuarios;
     }
 
 }

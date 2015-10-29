@@ -22,7 +22,7 @@ public class DB {
         }
 
         try {
-            setConexion(DriverManager.getConnection("jdbc:mysql://localhost:3306/db_cinema", "root", ""));
+            setConexion(DriverManager.getConnection("jdbc:mysql://localhost:3306/db_cinema", "root", "root"));
         } catch (SQLException ex) {
             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
         }
