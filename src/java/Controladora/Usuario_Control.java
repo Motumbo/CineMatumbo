@@ -33,23 +33,14 @@ public class Usuario_Control extends HttpServlet {
                 break;
             case "Log out":
                 this.logout(request, response);
-                break;/*
-            case "listar":
-                this.listarUsuarios(request);
-                break;*/
+                break;
         }
     }
-/*
-    private void listarUsuarios(HttpServletRequest request){
-        setListaUsuarios(_usuarioConectado.dameListaTodos());
-        //request.getServletContext().setAttribute("listaUsuarios", getListaUsuarios());
-        request.setAttribute("listaUsuarios", getListaUsuarios());
-    }
-    */
+
     private void registrarse(HttpServletRequest request, HttpSession session, HttpServletResponse response) throws IOException {
         Usuario user = new Usuario(request.getParameter("usuarioRegistro"), request.getParameter("passwordRegistro"), request.getParameter("mailRegistro"));
         if (user != null) {
-            _usuarioConectado.agregarUsuario(user);
+            getUsuarioConectado().agregarUsuario(user);
             session.setAttribute("usuarioConectado", user);
             response.sendRedirect("index.jsp");
         } else {
@@ -59,7 +50,7 @@ public class Usuario_Control extends HttpServlet {
 
     private void login(HttpServletRequest request, HttpSession session, HttpServletResponse response) throws IOException {
         Usuario user = new Usuario();
-        user = _usuarioConectado.validarLogIn(request.getParameter("usuarioLogin"), request.getParameter("passwordLogin"));
+        user = getUsuarioConectado().validarLogIn(request.getParameter("usuarioLogin"), request.getParameter("passwordLogin"));
         if (user != null) {
             session.setAttribute("usuarioConectado", user);
             response.sendRedirect("index.jsp");
@@ -76,8 +67,7 @@ public class Usuario_Control extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-        
+        processRequest(request, response);  
         request.setAttribute("listaUsuarios", getListaUsuarios());
     }
 
@@ -85,6 +75,7 @@ public class Usuario_Control extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        request.setAttribute("listaUsuarios", getListaUsuarios());
     }
 
     @Override
@@ -93,7 +84,7 @@ public class Usuario_Control extends HttpServlet {
     }
 
     public ArrayList getListaUsuarios() {
-        setListaUsuarios(_usuarioConectado.dameListaTodos());
+        setListaUsuarios(getUsuarioConectado().dameListaTodos());
         return _listaUsuarios;
     }
 
@@ -101,4 +92,11 @@ public class Usuario_Control extends HttpServlet {
         this._listaUsuarios = listaUsuarios;
     }
 
+    public Usuario getUsuarioConectado() {
+        return _usuarioConectado;
+    }
+
+    public void setUsuarioConectado(Usuario _usuarioConectado) {
+        this._usuarioConectado = _usuarioConectado;
+    }
 }

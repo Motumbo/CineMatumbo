@@ -1,21 +1,3 @@
-var gridData =
-        [
-            {
-                "id": 0,
-                "nombre": "Sala uno",
-                "filas": 50,
-                "columnas": 50,
-                "tiempoLimpieza": 20
-            },
-            {
-                "id": 1,
-                "nombre": "Sala dos",
-                "filas": 40,
-                "columnas": 60,
-                "tiempoLimpieza": 15
-            }
-        ];
-
 $(document).ready(function () {
     $("#grid").shieldGrid({
         dataSource: {
@@ -43,7 +25,6 @@ $(document).ready(function () {
             {field: "columnas", title: "Numero de columnas"},
             {field: "tiempoLimpieza", title: "Tiempo de limpieza"},
             {
-                width: "154px",
                 title: "Delete Column",
                 buttons: [
                     {cls: "deleteButton", commandName: "delete", caption: "<span>Delete</span>"}

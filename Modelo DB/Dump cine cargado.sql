@@ -27,26 +27,21 @@ DROP TABLE IF EXISTS `tbl_cines`;
 CREATE TABLE `tbl_cines` (
   `pk_cine` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) DEFAULT NULL,
-  `fk_ciudad` int(11) NOT NULL,
+  `ciudad` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`pk_cine`),
-  KEY `cine_ciudad_idx` (`fk_ciudad`),
-  CONSTRAINT `cine_ciudad` FOREIGN KEY (`fk_ciudad`) REFERENCES `tbl_ciudades` (`pk_ciudad`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `cine_ciudad_idx` (`ciudad`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `tbl_ciudades`
+-- Dumping data for table `tbl_cines`
 --
 
-DROP TABLE IF EXISTS `tbl_ciudades`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tbl_ciudades` (
-  `pk_ciudad` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`pk_ciudad`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `tbl_cines` WRITE;
+/*!40000 ALTER TABLE `tbl_cines` DISABLE KEYS */;
+INSERT INTO `tbl_cines` VALUES (1,'CineMatumbo','Tierra Media'),(2,'Cine Los Gallegos','Mar del Plata'),(3,'Cine Ambassador','Mar del Plata');
+/*!40000 ALTER TABLE `tbl_cines` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `tbl_funciones`
@@ -57,7 +52,7 @@ DROP TABLE IF EXISTS `tbl_funciones`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tbl_funciones` (
   `pk_funcion` int(11) NOT NULL AUTO_INCREMENT,
-  `horario_inicio` datetime DEFAULT NULL,
+  `horario_inicio` timestamp NULL DEFAULT NULL,
   `fk_sala` int(11) NOT NULL,
   `fk_pelicula` int(11) NOT NULL,
   PRIMARY KEY (`pk_funcion`),
@@ -67,6 +62,15 @@ CREATE TABLE `tbl_funciones` (
   CONSTRAINT `funcion_sala` FOREIGN KEY (`fk_sala`) REFERENCES `tbl_salas` (`pk_sala`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tbl_funciones`
+--
+
+LOCK TABLES `tbl_funciones` WRITE;
+/*!40000 ALTER TABLE `tbl_funciones` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tbl_funciones` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `tbl_peliculas`
@@ -80,10 +84,21 @@ CREATE TABLE `tbl_peliculas` (
   `nombre` varchar(45) DEFAULT NULL,
   `genero` varchar(45) DEFAULT NULL,
   `clasificacion` varchar(45) DEFAULT NULL,
-  `duracion` time DEFAULT NULL,
+  `duracion` int(11) DEFAULT NULL,
+  `imagen` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`pk_pelicula`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tbl_peliculas`
+--
+
+LOCK TABLES `tbl_peliculas` WRITE;
+/*!40000 ALTER TABLE `tbl_peliculas` DISABLE KEYS */;
+INSERT INTO `tbl_peliculas` VALUES (1,'El señor de los anillos','Fantasia epica','PG-13',180,'https://www.movieposter.com/posters/archive/main/105/MPW-52979'),(2,'Mad Max: Fury Road','Accion','R',120,'http://vignette2.wikia.nocookie.net/roadwarrior/images/b/be/Poster-mad-max-fury-road-08b.jpg/revision/latest?cb=20150521140222'),(3,'Mulan','Comedia Animacion','G',88,'https://s-media-cache-ak0.pinimg.com/236x/84/f0/04/84f004bd639742a76729825f41fda53f.jpg');
+/*!40000 ALTER TABLE `tbl_peliculas` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `tbl_reservas`
@@ -109,6 +124,15 @@ CREATE TABLE `tbl_reservas` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `tbl_reservas`
+--
+
+LOCK TABLES `tbl_reservas` WRITE;
+/*!40000 ALTER TABLE `tbl_reservas` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tbl_reservas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `tbl_salas`
 --
 
@@ -120,13 +144,23 @@ CREATE TABLE `tbl_salas` (
   `nombre` varchar(45) DEFAULT NULL,
   `filas` int(11) DEFAULT NULL,
   `columnas` int(11) DEFAULT NULL,
-  `tiempo_limpieza` time DEFAULT NULL,
+  `tiempo_limpieza` int(11) DEFAULT NULL,
   `fk_cine` int(11) NOT NULL,
   PRIMARY KEY (`pk_sala`),
   KEY `sala_cine_idx` (`fk_cine`),
   CONSTRAINT `sala_cine` FOREIGN KEY (`fk_cine`) REFERENCES `tbl_cines` (`pk_cine`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tbl_salas`
+--
+
+LOCK TABLES `tbl_salas` WRITE;
+/*!40000 ALTER TABLE `tbl_salas` DISABLE KEYS */;
+INSERT INTO `tbl_salas` VALUES (1,'Sala Isengard',25,40,15,1),(2,'Sala Mordor',30,50,20,1),(3,'Sala La Comarca',15,30,15,1),(4,'Sala Imax',30,45,20,2),(5,'Sala 3D',40,60,10,2);
+/*!40000 ALTER TABLE `tbl_salas` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `tbl_tarifas`
@@ -144,6 +178,15 @@ CREATE TABLE `tbl_tarifas` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `tbl_tarifas`
+--
+
+LOCK TABLES `tbl_tarifas` WRITE;
+/*!40000 ALTER TABLE `tbl_tarifas` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tbl_tarifas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `tbl_usuarios`
 --
 
@@ -155,9 +198,20 @@ CREATE TABLE `tbl_usuarios` (
   `username` varchar(45) DEFAULT NULL,
   `password` varchar(45) DEFAULT NULL,
   `categoria` varchar(45) DEFAULT NULL,
+  `email` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`pk_usuario`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tbl_usuarios`
+--
+
+LOCK TABLES `tbl_usuarios` WRITE;
+/*!40000 ALTER TABLE `tbl_usuarios` DISABLE KEYS */;
+INSERT INTO `tbl_usuarios` VALUES (1,'Nicolas','123','admin','nicolas@gmail.com'),(2,'Guido','123','admin','guido@gmail.com'),(3,'Frodo','123','cliente','frodo@bolsudo.com'),(4,'Cris','123','cliente','cris@judio.con'),(5,'Gandalf','123','cliente','magordito@mordor.com');
+/*!40000 ALTER TABLE `tbl_usuarios` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -168,4 +222,4 @@ CREATE TABLE `tbl_usuarios` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-10-16 12:11:08
+-- Dump completed on 2015-10-30  0:37:38

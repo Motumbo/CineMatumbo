@@ -65,12 +65,12 @@ public class Cine_Dao extends DB implements Interface_Dao<Cine> {
     @Override
     public ArrayList<Cine> dameAll() {
         ArrayList listaCines = new ArrayList();
-        Cine entidad = new Cine();
         try {
             conectar();
             setSentencia(getConexion().createStatement());
             setResultado(getSentencia().executeQuery("SELECT * FROM tbl_cines"));
             while (getResultado().next()) {
+                Cine entidad = new Cine();
                 entidad.setIdCine(getResultado().getInt("pk_cine"));
                 entidad.setNombre(getResultado().getString("nombre"));
                 entidad.setCiudad(getResultado().getString("ciudad"));

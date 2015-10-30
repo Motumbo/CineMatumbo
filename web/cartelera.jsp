@@ -10,13 +10,15 @@
         <jsp:include page="topMenu.jsp" />
         <div class="container">
             <div id="blog" class="row"> 
-                <div class="col-md-10 blogShort">
-                    <h1>Title 1</h1>
-                    <img src="http://www.kaczmarek-photo.com/wp-content/uploads/2012/06/guinnes-150x150.jpg" alt="Sin imagen disponible" class="pull-left img-responsive thumb margin10 img-thumbnail">
-                    <article><p></p></article>
-                    <a class="btn btn-blog pull-right marginBottom10" href="http://bootsnipp.com/user/snippets/2RoQ">READ MORE</a>
-                </div>
-                <div class="col-md-12 gap10"></div>
+                <c:forEach items="${listaPeliculas.dameListaTodos()}" var="pelicula" varStatus="status">
+                    <div class="col-md-10 blogShort">
+                        <h1>${pelicula.getNombre()}</h1>
+                        <img src="${pelicula.getImagen()}" width="160" alt="Sin imagen disponible" class="img-responsive thumb margin10 img-thumbnail">
+                        <p>Genero: ${pelicula.getGenero()}</p>
+                        <p>Clasificacion: ${pelicula.getClasificacion()}</p>
+                        <p>Duracion: ${pelicula.getDuracion()} minutos</p>
+                    </div>
+                </c:forEach>
             </div>
         </div>
     </body>

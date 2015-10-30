@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -14,20 +15,32 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="buttondropdown">Cine</label>
                     <div class="col-md-4">
-                        <div class="input-group">
-                            <input id="buttondropdown" name="buttondropdown" class="form-control" placeholder="Seleccione el cine" required="" type="text">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu pull-right"></ul>
-                            </div>
-                        </div>
+                        <c:set var="cineSeleccionado" scope="request"/>
+                        <select id="selectCine" class="form-control">
+                            <c:forEach items="${listaCines.dameListaTodos()}" var="cine" varStatus="loop">
+                                <option value="${cine.getIdCine()}">${cine.getNombre()}</option>
+                            </c:forEach>
+                        </select>
                     </div>
                 </div>
             </fieldset>
         </form>
         <div id="grid"></div>
+        <script type="text/javascript">
+            var gridData = [
+            <c:forEach items="${listaSalas.DameAllSalasCine(1)}" var="sala" varStatus="status">
+            {
+                "id": "${sala.getIdSala()}",
+                "nombre": "${sala.getNombre()}",
+                "filas": "${sala.getFilas()}",
+                "columnas": "${sala.getColumnas()}",
+                "tiempoLimpieza": "${sala.getTiempoLimpieza()}"
+            }
+                <c:if test="${!status.last}">
+            ,
+                </c:if>
+            </c:forEach>
+            ];        </script>
         <script src="ScriptsExternos/dataGridSalas.js" type="text/javascript"></script>
     </body>
 </html>

@@ -71,12 +71,12 @@ public class Pelicula_Dao extends DB implements Interface_Dao<Pelicula> {
     @Override
     public ArrayList<Pelicula> dameAll() {
         ArrayList<Pelicula> listaPeliculas = new ArrayList();
-        Pelicula entidad = new Pelicula();
         try {
             conectar();
             setSentencia(getConexion().createStatement());
             setResultado(getSentencia().executeQuery("SELECT * FROM tbl_peliculas"));
-            while (getResultado().next()) {
+            while (getResultado().next()) { 
+                Pelicula entidad = new Pelicula();
                 entidad.setIdPelicula(getResultado().getInt("pk_pelicula"));
                 entidad.setNombre(getResultado().getString("nombre"));
                 entidad.setGenero(getResultado().getString("genero"));

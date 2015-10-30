@@ -85,7 +85,6 @@ public class Sala_Dao extends DB implements Interface_Dao<Sala> {
 
     public ArrayList<Sala> dameSalasCine(int fk_IdCine) {
         ArrayList<Sala> salasDeUnCine = new ArrayList<>();
-        Sala entidad = new Sala();
         try {
             String query = "SELECT * FROM tbl_salas WHERE fk_cine = ?";
             conectar();
@@ -93,6 +92,7 @@ public class Sala_Dao extends DB implements Interface_Dao<Sala> {
             ps.setInt(1, fk_IdCine);
             setResultado(ps.executeQuery());
             while (getResultado().next()) {
+                Sala entidad = new Sala();
                 entidad.setIdSala(getResultado().getInt("pk_sala"));
                 entidad.setNombre(getResultado().getString("nombre"));
                 entidad.setFilas(getResultado().getInt("filas"));

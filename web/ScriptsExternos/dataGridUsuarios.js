@@ -40,12 +40,6 @@ $(document).ready(function () {
                     template: function (item) {
                         return "¿Borrar al usuario = " + item.nombre + "?";
                     }
-                },
-                "save": {
-                    enabled: true,
-                    template: function (item){
-                        return "¿Guardar cambios?";
-                    }
                 }
             }
         },

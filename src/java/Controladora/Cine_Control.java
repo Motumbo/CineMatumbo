@@ -1,6 +1,6 @@
 package Controladora;
 
-import Modelo.Pelicula;
+import Modelo.Cine;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
@@ -9,25 +9,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "C_Peliculas", urlPatterns = {"/controlPeliculas"})
+@WebServlet(name = "Cine_Control", urlPatterns = {"/controlCine"})
+public class Cine_Control extends HttpServlet {
 
-public class Pelicula_Control extends HttpServlet {
-
-    private Pelicula _pelicula = new Pelicula();
-    private ArrayList _listaPeliculas = new ArrayList();
+    private ArrayList _listaCines = new ArrayList();
+    private Cine _cine = new Cine();
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        request.setAttribute("listaPeliculas", getListaPeliculas());
+        request.setAttribute("listaCines", getListaCines());
     }
 
     @Override
@@ -41,20 +38,20 @@ public class Pelicula_Control extends HttpServlet {
         return "Short description";
     }
 
-    public Pelicula getPelicula() {
-        return _pelicula;
+    public ArrayList getListaCines() {
+        setListaCines(getCine().dameListaTodos());
+        return _listaCines;
     }
 
-    public void setPelicula(Pelicula pelicula) {
-        this._pelicula = pelicula;
+    public void setListaCines(ArrayList listaCines) {
+        this._listaCines = listaCines;
     }
 
-    public ArrayList getListaPeliculas() {
-        setListaPeliculas(getPelicula().dameListaTodos());
-        return _listaPeliculas;
+    public Cine getCine() {
+        return _cine;
     }
 
-    public void setListaPeliculas(ArrayList listaPeliculas) {
-        this._listaPeliculas = listaPeliculas;
+    public void setCine(Cine cine) {
+        this._cine = cine;
     }
 }

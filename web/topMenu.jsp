@@ -3,6 +3,14 @@
 <!DOCTYPE html>
 <jsp:useBean id="usuarioConectado" class="Modelo.Usuario" scope="session"/>
 <jsp:setProperty name="usuarioConectado" property="*"/>
+<jsp:useBean id="listaUsuarios" class="Modelo.Usuario" scope="request"/>
+<jsp:setProperty name="listaUsuarios" property="*"/>
+<jsp:useBean id="listaCines" class="Modelo.Cine" scope="request"/>
+<jsp:setProperty name="listaCines" property="*"/>
+<jsp:useBean id="listaSalas" class="Modelo.Sala" scope="request"/>
+<jsp:setProperty name="listaSalas" property="*"/>
+<jsp:useBean id="listaPeliculas" class="Modelo.Pelicula" scope="request"/>
+<jsp:setProperty name="listaPeliculas" property="*"/>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
