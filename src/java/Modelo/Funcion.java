@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Funcion {
 
     private int _idFuncion;
-    private int _id_CineAlQuePertenece;
+    private int _idSalaAlQuePertenece;
     private Pelicula _pelicula;
     private Timestamp _fechaHoraInicio;
 
@@ -18,11 +18,11 @@ public class Funcion {
         this._idFuncion = _idFuncion;
     }
 
-    public int getId_CineAlQuePertenece() {
-        return _id_CineAlQuePertenece;
+    public int getIdSalaAlQuePertenece() {
+        return _idSalaAlQuePertenece;
     }
-    public void setId_CineAlQuePertenece(int _id_CineAlQuePertenece) {
-        this._id_CineAlQuePertenece = _id_CineAlQuePertenece;
+    public void setIdSalaAlQuePertenece(int _idSalaAlQuePertenece) {
+        this._idSalaAlQuePertenece = _idSalaAlQuePertenece;
     }
     
     public Pelicula getPelicula() {
@@ -73,5 +73,7 @@ public class Funcion {
     }
 
     ////////////////////////////////////////////// METODOS DE ALMACENAMIENTO CON Usuario_Dao DB /////////////////////////////////////////////////////////////////
+
+
 
 }

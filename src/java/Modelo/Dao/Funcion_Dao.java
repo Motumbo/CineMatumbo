@@ -27,7 +27,7 @@ public class Funcion_Dao extends DB implements Interface_Dao<Funcion>{
                 conectar();
                 PreparedStatement ps = getConexion().prepareStatement(query);
                 ps.setTimestamp(1, entidad.getFechaHoraInicio());
-                ps.setInt(2, entidad.getId_CineAlQuePertenece());
+                ps.setInt(2, entidad.getIdSalaAlQuePertenece());
                 ps.setInt(3, entidad.getPelicula().getIdPelicula());
                 ps.execute();
                 desconectar();
@@ -57,7 +57,7 @@ public class Funcion_Dao extends DB implements Interface_Dao<Funcion>{
             setResultado(getSentencia().executeQuery("SELECT * FROM tbl_funciones"));
             while (getResultado().next()) {
                 Funcion entidad = new Funcion();
-                entidad.setIdUsuario(getResultado().getInt("pk_usuario"));
+                entidad.setIdFuncion(getResultado().getInt("pk_usuario"));
                 entidad.setUserName(getResultado().getString("username"));
                 entidad.setCategoria(getResultado().getString("categoria"));
                 entidad.setMail(getResultado().getString("email"));
@@ -72,7 +72,6 @@ public class Funcion_Dao extends DB implements Interface_Dao<Funcion>{
 
     @Override
     public Funcion dameXId(String id) {     /////////////////////// CUAL VA A SER EL ARGUMENTO DE BUSQUEDA DE UNA FUNCION??????????
-        
         Funcion entidad = new Funcion();
         try {
             String query = "SELECT * FROM tbl_funciones WHERE horario_inicio = ?";
@@ -82,12 +81,33 @@ public class Funcion_Dao extends DB implements Interface_Dao<Funcion>{
             setResultado(ps.executeQuery());
             while (getResultado().next()) {
                 entidad.setIdFuncion(getResultado().getInt("pk_funcion"));
-                entidad.setFechaHoraInicio(getResultado().getTimestamp("horario_inicio"))  /////////NO EXISTE UN GET TIMESTAMP QUE RECIBA UN TIMESTAMP COMO PARAMETRO DE ENTRADA
-                entidad.setId_CineAlQuePertenece(getResultado().getInt("fk_sala"));
+                entidad.setFechaHoraInicio(getResultado().getTimestam("horario_inicio"))  /////////NO EXISTE UN GET TIMESTAMP QUE RECIBA UN TIMESTAMP COMO PARAMETRO DE ENTRADA
+                entidad.setIdSalaAlQuePertenece(getResultado().getInt("fk_sala"));
                 entidad.getPelicula().setIdPelicula((getResultado().getInt("fk_pelicula"))); 
 //                      Î
 // A ver si te das cuenta como mierda tuve que hacer aca para asignarle la mierda de id de la pelicula a tu mierda de funcion, directamente cambia la clase porongaes y ponele un id_Pelicula, que no necesita mas que eso.
 
+            }
+            desconectar();
+        } catch (SQLException ex) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (entidad);
+    }
+    
+    public Funcion dameXId(int idSala, int idPelicula) { 
+        Funcion entidad = new Funcion();
+        try {
+            String query = "SELECT * FROM tbl_funciones WHERE horario_inicio = ?";
+            conectar();
+            PreparedStatement ps = getConexion().prepareStatement(query);
+            ps.setString(1, id);
+            setResultado(ps.executeQuery());
+            while (getResultado().next()) {
+                entidad.setIdFuncion(getResultado().getInt("pk_funcion"));
+                entidad.setFechaHoraInicio(getResultado().getTimestam("horario_inicio"))  /////////NO EXISTE UN GET TIMESTAMP QUE RECIBA UN TIMESTAMP COMO PARAMETRO DE ENTRADA
+                entidad.setIdSalaAlQuePertenece(getResultado().getInt("fk_sala"));
+                entidad.getPelicula().setIdPelicula((getResultado().getInt("fk_pelicula"))); 
             }
             desconectar();
         } catch (SQLException ex) {
@@ -100,12 +120,14 @@ public class Funcion_Dao extends DB implements Interface_Dao<Funcion>{
     public boolean existe(Funcion entidad) {
         String p = "";
         try {
-            String query = "SELECT * FROM tbl_funciones WHERE horario_inicio = ? and fk_sala = ? and fk_pelicula = ? ";
+            String query = "SELECT * FROM tbl_funciones WHERE fk_sala = ? and fk_pelicula = ? and horario_inicio = ?";
             conectar();
             PreparedStatement ps = getConexion().prepareStatement(query);
-            ps.setTimestamp(1, entidad.getFechaHoraInicio());
-            ps.setInt(1, entidad.getId_CineAlQuePertenece());
-            ps.setInt(1, entidad.getPelicula().getIdPelicula());
+            
+            ps.setInt(1, entidad.getIdSalaAlQuePertenece());
+            ps.setInt(2, entidad.getPelicula().getIdPelicula());
+            ps.setTimestamp(3, entidad.getFechaHoraInicio());
+            
             setResultado(ps.executeQuery());
             while (getResultado().next()) {
                 p = String.valueOf(getResultado().getInt("pk_funcion"));

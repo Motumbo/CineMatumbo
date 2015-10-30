@@ -15,8 +15,7 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="buttondropdown">Cine</label>
                     <div class="col-md-4">
-                        <c:set var="cineSeleccionado" scope="request"/>
-                        <select id="selectCine" class="form-control">
+                        <select id="selectCine" class="form-control" onchange="">
                             <c:forEach items="${listaCines.dameListaTodos()}" var="cine" varStatus="loop">
                                 <option value="${cine.getIdCine()}">${cine.getNombre()}</option>
                             </c:forEach>
@@ -40,7 +39,8 @@
             ,
                 </c:if>
             </c:forEach>
-            ];        </script>
+            ];
+        </script>
         <script src="ScriptsExternos/dataGridSalas.js" type="text/javascript"></script>
     </body>
 </html>

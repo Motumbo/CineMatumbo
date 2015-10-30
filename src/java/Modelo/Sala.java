@@ -64,8 +64,9 @@ public class Sala {
     private Sala_Dao _datos = new Sala_Dao();
     private ArrayList<Sala> _listaSalas = new ArrayList();
 
-    public void agregarSala(Sala entidad) {
-        _datos.agregar(entidad);
+    
+    public void agregarSala(Sala entidad, int idCine) {
+        _datos.agregar(entidad, idCine);
     }
 
     public void modificarSala(Sala entidad) {
