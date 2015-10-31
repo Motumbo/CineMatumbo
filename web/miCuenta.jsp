@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <jsp:include page="headerInclude.jsp" />
         <title>Mi cuenta</title>
     </head>
     <body>

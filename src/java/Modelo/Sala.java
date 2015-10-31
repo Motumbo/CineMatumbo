@@ -12,6 +12,24 @@ public class Sala {
     private int _tiempoLimpieza;
     private ArrayList<Funcion> _listaFunciones;
 
+    public Sala(){
+        setIdSala(0);
+        setNombre("");
+        setFilas(0);
+        setColumnas(0);
+        setTiempoLimpieza(0);
+        setListaFunciones(null);
+    }
+    
+    public Sala(int currentId, String newNombre, int newFilas, int newColumnas, int newTiempoLimpieza){
+        setIdSala(currentId);
+        setNombre(newNombre);
+        setFilas(newFilas);
+        setColumnas(newColumnas);
+        setTiempoLimpieza(newTiempoLimpieza);
+        setListaFunciones(null);
+    }
+    
     public int getIdSala() {
         return _idSala;
     }
@@ -82,7 +100,7 @@ public class Sala {
         return _listaSalas;
     }
 
-    public ArrayList<Sala> DameAllSalasCine(int id_Cine) {
+    public ArrayList<Sala> dameAllSalasCine(int id_Cine) {
         _listaSalas = _datos.dameSalasCine(id_Cine);
         return _listaSalas;
     }

@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link href="EstilosExternos/carteleraStyle.css" rel="stylesheet" type="text/css"/>
+        <jsp:include page="headerInclude.jsp" />
         <title>Cartelera</title>
     </head>
     <body>

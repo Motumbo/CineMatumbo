@@ -31,21 +31,37 @@ public class Usuario_Dao extends DB implements Interface_Dao<Usuario> {
 
     @Override
     public Usuario modificar(Usuario entidad) {
-        if (this.existe(entidad)) {
+        if (!this.existe(entidad)) {
             try {
-                String query = "UPDATE tbl_usuarios SET username = ?, password = ?, categoria = ?, email = ? WHERE pk_usuario = ?";
+                String query = "UPDATE tbl_usuarios SET username = ?, password = ?, email = ? WHERE pk_usuario = ?";
                 conectar();
                 PreparedStatement ps = getConexion().prepareStatement(query);
                 ps.setString(1, entidad.getUserName());
                 ps.setString(2, entidad.getPass());
-                ps.setString(3, entidad.getCategoria());
-                ps.setString(4, entidad.getMail());
-                ps.setInt(5, entidad.getIdUsuario());
+                ps.setString(3, entidad.getMail());
+                ps.setInt(4, entidad.getIdUsuario());
                 ps.execute();
                 desconectar();
             } catch (SQLException ex) {
                 Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+        return entidad;
+    }
+
+    public Usuario modificarDesdeGestion(Usuario entidad) {
+        try {
+            String query = "UPDATE tbl_usuarios SET username = ?, categoria = ?, email = ? WHERE pk_usuario = ?";
+            conectar();
+            PreparedStatement ps = getConexion().prepareStatement(query);
+            ps.setString(1, entidad.getUserName());
+            ps.setString(2, entidad.getCategoria());
+            ps.setString(3, entidad.getMail());
+            ps.setInt(4, entidad.getIdUsuario());
+            ps.execute();
+            desconectar();
+        } catch (SQLException ex) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return entidad;
     }
@@ -112,6 +128,28 @@ public class Usuario_Dao extends DB implements Interface_Dao<Usuario> {
         return (entidad);
     }
 
+    public Usuario dameXId(int id) {
+        Usuario entidad = new Usuario();
+        try {
+            String query = "SELECT * FROM tbl_usuarios WHERE pk_usuario = ?";
+            conectar();
+            PreparedStatement ps = getConexion().prepareStatement(query);
+            ps.setInt(1, id);
+            setResultado(ps.executeQuery());
+            while (getResultado().next()) {
+                entidad.setIdUsuario(getResultado().getInt("pk_usuario"));
+                entidad.setUserName(getResultado().getString("username"));
+                entidad.setPass(getResultado().getString("password"));
+                entidad.setCategoria(getResultado().getString("categoria"));
+                entidad.setMail(getResultado().getString("email"));
+            }
+            desconectar();
+        } catch (SQLException ex) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (entidad);
+    }
+
     @Override
     public boolean existe(Usuario entidad) {
         String p = "";
@@ -122,7 +160,7 @@ public class Usuario_Dao extends DB implements Interface_Dao<Usuario> {
             ps.setString(1, entidad.getUserName());
             setResultado(ps.executeQuery());
             while (getResultado().next()) {
-                p = getResultado().getString("username");
+            p = getResultado().getString("username");
             }
             desconectar();
         } catch (SQLException ex) {

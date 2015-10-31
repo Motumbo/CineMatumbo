@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <jsp:include page="headerInclude.jsp" />
         <title>Log in</title>
     </head>
     <body>

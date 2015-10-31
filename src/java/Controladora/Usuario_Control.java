@@ -34,9 +34,19 @@ public class Usuario_Control extends HttpServlet {
             case "Log out":
                 this.logout(request, response);
                 break;
+            case "modificar":
+                this.modificar(request, response);
+                break;
         }
     }
 
+    private void modificar(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        int idUsuario = Integer.parseInt(request.getParameter("idModificar"));
+        Usuario user = new Usuario(idUsuario, request.getParameter("usuarioModificar"), request.getParameter("mailModificar"), request.getParameter("categoriaModificar"));
+        getUsuarioConectado().modificarUsuarioGestion(user);
+        response.sendRedirect("gestionUsuarios.jsp");
+    }
+    
     private void registrarse(HttpServletRequest request, HttpSession session, HttpServletResponse response) throws IOException {
         Usuario user = new Usuario(request.getParameter("usuarioRegistro"), request.getParameter("passwordRegistro"), request.getParameter("mailRegistro"));
         if (user != null) {
@@ -67,8 +77,7 @@ public class Usuario_Control extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);  
-        request.setAttribute("listaUsuarios", getListaUsuarios());
+        processRequest(request, response);
     }
 
     @Override

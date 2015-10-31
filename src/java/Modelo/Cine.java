@@ -51,7 +51,7 @@ public class Cine {
     }
 
     public void dameSalasCine() {
-        setListaSalas(_sala.DameAllSalasCine(this.getIdCine()));
+        setListaSalas(_sala.dameAllSalasCine(this.getIdCine()));
     }
 
     ////////////////////////////////////////////// METODOS DE ALMACENAMIENTO CON Cine_Dao DB /////////////////////////////////////////////////////////////////

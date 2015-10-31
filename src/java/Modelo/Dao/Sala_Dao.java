@@ -35,8 +35,7 @@ public class Sala_Dao extends DB implements Interface_Dao<Sala> {
     }
 
     @Override
-    public Sala modificar(Sala entidad) { //ESTO NO FUNCIONA PORQUE NO SABE IDENTIFICAR DE QUE CINE ES, Y LOS NOMBRES DE LAS SALAS PUEDEN ESTAR REPETIDOS
-        if (this.existe(entidad)) {
+    public Sala modificar(Sala entidad) {
             try {
                 String query = "UPDATE tbl_salas SET nombre = ?, filas = ?, columnas = ?, tiempo_limpieza = ? WHERE pk_sala = ?";
                 conectar();
@@ -51,7 +50,6 @@ public class Sala_Dao extends DB implements Interface_Dao<Sala> {
             } catch (SQLException ex) {
                 Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
         return entidad;
     }
 
@@ -63,12 +61,12 @@ public class Sala_Dao extends DB implements Interface_Dao<Sala> {
     @Override
     public ArrayList<Sala> dameAll() {
         ArrayList listaSalas = new ArrayList();
-        Sala entidad = new Sala();
         try {
             conectar();
             setSentencia(getConexion().createStatement());
             setResultado(getSentencia().executeQuery("SELECT * FROM tbl_salas"));
             while (getResultado().next()) {
+                Sala entidad = new Sala();
                 entidad.setIdSala(getResultado().getInt("pk_sala"));
                 entidad.setNombre(getResultado().getString("nombre"));
                 entidad.setFilas(getResultado().getInt("filas"));

@@ -35,6 +35,14 @@ public class Usuario {
         setMail(newMail);
     }
 
+    public Usuario(int currentId, String newUsername, String newMail, String newCategoria) {
+        setIdUsuario(currentId);
+        setUserName(newUsername);
+        setPass("");
+        setCategoria(newCategoria);
+        setMail(newMail);
+    }
+
     public int getIdUsuario() {
         return _idUsuario;
     }
@@ -90,21 +98,19 @@ public class Usuario {
     private ArrayList _listaUsuarios = new ArrayList();
 
     public void agregarUsuario(Usuario user) {
-        if (!user.existe(user)) {
-            _datos.agregar(user);
-        }
+        _datos.agregar(user);
     }
 
     public void modificarUsuario(Usuario user) {
-        if (this.getCategoria() != "admin") {
-            _datos.modificar(user);
-        }
+        _datos.modificar(user);
+    }
+
+    public void modificarUsuarioGestion(Usuario user) {
+        _datos.modificarDesdeGestion(user);
     }
 
     public void borrarUsuario(Usuario user) {
-        if (this.getCategoria() != "admin") {
-            _datos.borrar(user);
-        }
+        _datos.borrar(user);
     }
 
     public ArrayList dameListaTodos() {
@@ -114,6 +120,10 @@ public class Usuario {
 
     public Usuario buscarUsuario(String username) {
         return _datos.dameXId(username);
+    }
+
+    public Usuario buscarUsuario(int idUsuario) {
+        return _datos.dameXId(idUsuario);
     }
 
     public boolean existe(Usuario user) {
