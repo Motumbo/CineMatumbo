@@ -19,6 +19,14 @@ public class Usuario {
         setMail("");
     }
 
+    public Usuario(int currentId){
+        setIdUsuario(currentId);
+        setUserName("");
+        setPass("");
+        setCategoria("");
+        setMail("");
+    }
+    
     public Usuario(String newUsername, String newPassword) {
         setIdUsuario(0);
         setUserName(newUsername);

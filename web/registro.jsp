@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -7,6 +8,9 @@
     </head>
     <body>
         <jsp:include page="topMenu.jsp" />
+        <c:if test="${usuarioConectado.existe(usuarioConectado)}">
+            <c:redirect url="index.jsp"/>
+        </c:if>
         <form id="registerForm" class="form-horizontal" action="controlUsuario">
             <fieldset>
                 <input type="hidden" name="accion" value="registro" />
@@ -19,7 +23,7 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="mailRegistro">E-Mail</label>  
                     <div class="col-md-4">
-                        <input name="mailRegistro" placeholder="Ingrese su correo electrónico" class="form-control input-md" required="" type="text">
+                        <input name="mailRegistro" placeholder="Ingrese su correo electrónico" class="form-control input-md" required="" type="email">
                     </div>
                 </div>
                 <div class="form-group">

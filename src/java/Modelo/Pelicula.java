@@ -12,6 +12,50 @@ public class Pelicula {
     private int _duracion;
     private String _imagen;
 
+    public Pelicula(){
+        setIdPelicula(0);
+        setNombre("");
+        setGenero("");
+        setClasificacion("");
+        setDuracion(0);
+        setImagen("");
+    }
+    
+    public Pelicula(int currentId){
+        setIdPelicula(currentId);
+        setNombre("");
+        setGenero("");
+        setClasificacion("");
+        setDuracion(0);
+        setImagen("");
+    }
+    
+    public Pelicula(String newNombre, String newGenero, String newClasificacion, int newDuracion, String newImagen){
+        setIdPelicula(0);
+        setNombre(newNombre);
+        setGenero(newGenero);
+        setClasificacion(newClasificacion);
+        setDuracion(newDuracion);
+        setImagen(newImagen);
+    }
+    
+    public Pelicula(int currentId, String newNombre, String newGenero, String newClasificacion, int newDuracion, String newImagen){
+        setIdPelicula(currentId);
+        setNombre(newNombre);
+        setGenero(newGenero);
+        setClasificacion(newClasificacion);
+        setDuracion(newDuracion);
+        setImagen(newImagen);
+    }
+    
+    public int getIdPelicula() {
+        return _idPelicula;
+    }
+
+    public void setIdPelicula(int _idPelicula) {
+        this._idPelicula = _idPelicula;
+    }
+
     public String getNombre() {
         return _nombre;
     }
@@ -42,14 +86,6 @@ public class Pelicula {
 
     public void setDuracion(int _duracion) {
         this._duracion = _duracion;
-    }
-
-    public int getIdPelicula() {
-        return _idPelicula;
-    }
-
-    public void setIdPelicula(int _idPelicula) {
-        this._idPelicula = _idPelicula;
     }
 
     public String getImagen() {

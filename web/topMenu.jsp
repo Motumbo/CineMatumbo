@@ -45,12 +45,12 @@
                                     <li><a href="gestionSalas.jsp">Gestionar salas</a></li>
                                     <li><a href="gestionPeliculas.jsp">Gestionar películas</a></li>
                                     <li><a href="gestionFunciones.jsp">Gestionar funciones</a></li>
+                                    <li><a href="historialReservas.jsp">Historial de reservas</a></li>
                                     </c:when>
                                     <c:when test="${usuarioConectado.categoria eq 'cliente'}">
                                     <li><a href="cartelera.jsp">Cartelera</a></li>
                                     <li><a href="reservar.jsp">Reservar entradas</a></li>
                                     <li><a href="misReservas.jsp">Mis reservas</a></li>
-                                    <li><a href="miCuenta.jsp">Mi cuenta</a></li>
                                     </c:when>
                                     <c:otherwise>
                                     <li><a href="cartelera.jsp">Cartelera</a></li>

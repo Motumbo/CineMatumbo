@@ -21,8 +21,26 @@ public class Sala {
         setListaFunciones(null);
     }
     
+    public Sala(int currentId){
+        setIdSala(currentId);
+        setNombre("");
+        setFilas(0);
+        setColumnas(0);
+        setTiempoLimpieza(0);
+        setListaFunciones(null);
+    }
+    
     public Sala(int currentId, String newNombre, int newFilas, int newColumnas, int newTiempoLimpieza){
         setIdSala(currentId);
+        setNombre(newNombre);
+        setFilas(newFilas);
+        setColumnas(newColumnas);
+        setTiempoLimpieza(newTiempoLimpieza);
+        setListaFunciones(null);
+    }
+    
+    public Sala(String newNombre, int newFilas, int newColumnas, int newTiempoLimpieza){
+        setIdSala(0);
         setNombre(newNombre);
         setFilas(newFilas);
         setColumnas(newColumnas);

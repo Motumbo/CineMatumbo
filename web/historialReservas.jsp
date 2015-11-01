@@ -4,13 +4,13 @@
 <html>
     <head>
         <jsp:include page="headerInclude.jsp" />
-        <title>Reservar</title>
+        <title>Historial de reservas</title>
     </head>
     <body>
         <jsp:include page="topMenu.jsp" />
-        <c:if test="${usuarioConectado.categoria eq 'admin' or !usuarioConectado.existe(usuarioConectado)}">
+        <c:if test="${usuarioConectado.categoria eq 'cliente' or !usuarioConectado.existe(usuarioConectado)}">
             <c:redirect url="index.jsp"/>
         </c:if>
-        <h1 style="text-align: center">reservar</h1>
+        <h1 style="text-align: center">historialReservas</h1>
     </body>
 </html>

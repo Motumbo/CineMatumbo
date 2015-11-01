@@ -68,19 +68,16 @@ public class Usuario_Dao extends DB implements Interface_Dao<Usuario> {
 
     @Override
     public void borrar(Usuario entidad) {
-        if (!this.existe(entidad)) {
-            try {
-                String query = "DELETE FROM tbl_usuarios WHERE pk_usuario = ?";
-                conectar();
-                PreparedStatement ps = getConexion().prepareStatement(query);
-                ps.setInt(1, entidad.getIdUsuario());
-                ps.execute();
-                desconectar();
-            } catch (SQLException ex) {
-                Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            String query = "DELETE FROM tbl_usuarios WHERE pk_usuario = ?";
+            conectar();
+            PreparedStatement ps = getConexion().prepareStatement(query);
+            ps.setInt(1, entidad.getIdUsuario());
+            ps.execute();
+            desconectar();
+        } catch (SQLException ex) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     @Override
@@ -160,7 +157,7 @@ public class Usuario_Dao extends DB implements Interface_Dao<Usuario> {
             ps.setString(1, entidad.getUserName());
             setResultado(ps.executeQuery());
             while (getResultado().next()) {
-            p = getResultado().getString("username");
+                p = getResultado().getString("username");
             }
             desconectar();
         } catch (SQLException ex) {

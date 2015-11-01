@@ -37,9 +37,19 @@ public class Usuario_Control extends HttpServlet {
             case "modificar":
                 this.modificar(request, response);
                 break;
+            case "borrar":
+                this.borrar(request, response);
+                break;
         }
     }
 
+    private void borrar(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        int idUsuario = Integer.parseInt(request.getParameter("idBorrar"));
+        Usuario user = new Usuario(idUsuario);
+        getUsuarioConectado().borrarUsuario(user);
+        response.sendRedirect("gestionUsuarios.jsp");
+    }
+    
     private void modificar(HttpServletRequest request, HttpServletResponse response) throws IOException{
         int idUsuario = Integer.parseInt(request.getParameter("idModificar"));
         Usuario user = new Usuario(idUsuario, request.getParameter("usuarioModificar"), request.getParameter("mailModificar"), request.getParameter("categoriaModificar"));

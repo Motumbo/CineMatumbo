@@ -36,26 +36,35 @@ public class Sala_Dao extends DB implements Interface_Dao<Sala> {
 
     @Override
     public Sala modificar(Sala entidad) {
-            try {
-                String query = "UPDATE tbl_salas SET nombre = ?, filas = ?, columnas = ?, tiempo_limpieza = ? WHERE pk_sala = ?";
-                conectar();
-                PreparedStatement ps = getConexion().prepareStatement(query);
-                ps.setString(1, entidad.getNombre());
-                ps.setInt(2, entidad.getFilas());
-                ps.setInt(3, entidad.getColumnas());
-                ps.setInt(4, entidad.getTiempoLimpieza());
-                ps.setInt(5, entidad.getIdSala());
-                ps.execute();
-                desconectar();
-            } catch (SQLException ex) {
-                Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            String query = "UPDATE tbl_salas SET nombre = ?, filas = ?, columnas = ?, tiempo_limpieza = ? WHERE pk_sala = ?";
+            conectar();
+            PreparedStatement ps = getConexion().prepareStatement(query);
+            ps.setString(1, entidad.getNombre());
+            ps.setInt(2, entidad.getFilas());
+            ps.setInt(3, entidad.getColumnas());
+            ps.setInt(4, entidad.getTiempoLimpieza());
+            ps.setInt(5, entidad.getIdSala());
+            ps.execute();
+            desconectar();
+        } catch (SQLException ex) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return entidad;
     }
 
     @Override
     public void borrar(Sala entidad) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            String query = "DELETE FROM tbl_salas WHERE pk_sala = ?";
+            conectar();
+            PreparedStatement ps = getConexion().prepareStatement(query);
+            ps.setInt(1, entidad.getIdSala());
+            ps.execute();
+            desconectar();
+        } catch (SQLException ex) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

@@ -32,39 +32,35 @@ public class Pelicula_Dao extends DB implements Interface_Dao<Pelicula> {
 
     @Override
     public Pelicula modificar(Pelicula entidad) {
-        if (this.existe(entidad)) {
-            try {
-                String query = "UPDATE tbl_peliculas SET nombre = ?, genero = ?, clasificacion = ?, duracion = ?, imagen = ? WHERE pk_pelicula = ?";
-                conectar();
-                PreparedStatement ps = getConexion().prepareStatement(query);
-                ps.setString(1, entidad.getNombre());
-                ps.setString(2, entidad.getGenero());
-                ps.setString(3, entidad.getClasificacion());
-                ps.setInt(4, entidad.getDuracion());
-                ps.setString(5, entidad.getImagen());
-                ps.setInt(6, entidad.getIdPelicula());
-                ps.execute();
-                desconectar();
-            } catch (SQLException ex) {
-                Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            String query = "UPDATE tbl_peliculas SET nombre = ?, genero = ?, clasificacion = ?, duracion = ?, imagen = ? WHERE pk_pelicula = ?";
+            conectar();
+            PreparedStatement ps = getConexion().prepareStatement(query);
+            ps.setString(1, entidad.getNombre());
+            ps.setString(2, entidad.getGenero());
+            ps.setString(3, entidad.getClasificacion());
+            ps.setInt(4, entidad.getDuracion());
+            ps.setString(5, entidad.getImagen());
+            ps.setInt(6, entidad.getIdPelicula());
+            ps.execute();
+            desconectar();
+        } catch (SQLException ex) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return entidad;
     }
 
     @Override
     public void borrar(Pelicula entidad) {
-        if (!this.existe(entidad)) {
-            try {
-                String query = "DELETE FROM tbl_peliculas WHERE pk_pelicula = ?";
-                conectar();
-                PreparedStatement ps = getConexion().prepareStatement(query);
-                ps.setInt(1, entidad.getIdPelicula());
-                ps.execute();
-                desconectar();
-            } catch (SQLException ex) {
-                Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            String query = "DELETE FROM tbl_peliculas WHERE pk_pelicula = ?";
+            conectar();
+            PreparedStatement ps = getConexion().prepareStatement(query);
+            ps.setInt(1, entidad.getIdPelicula());
+            ps.execute();
+            desconectar();
+        } catch (SQLException ex) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -75,7 +71,7 @@ public class Pelicula_Dao extends DB implements Interface_Dao<Pelicula> {
             conectar();
             setSentencia(getConexion().createStatement());
             setResultado(getSentencia().executeQuery("SELECT * FROM tbl_peliculas"));
-            while (getResultado().next()) { 
+            while (getResultado().next()) {
                 Pelicula entidad = new Pelicula();
                 entidad.setIdPelicula(getResultado().getInt("pk_pelicula"));
                 entidad.setNombre(getResultado().getString("nombre"));

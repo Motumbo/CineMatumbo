@@ -23,12 +23,35 @@ public class Sala_Control extends HttpServlet {
         String accion = request.getParameter("accion");
 
         switch (accion) {
+            case "agregar":
+                this.agregar(request, response);
+                break;
             case "modificar":
                 this.modificar(request, response);
+                break;
+            case "borrar":
+                this.borrar(request, response);
                 break;
         }
     }
 
+    private void agregar(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        int idCine = Integer.parseInt(request.getParameter("idCineAgregar"));
+        int filasSala = Integer.parseInt(request.getParameter("filasAgregar"));
+        int columnasSala = Integer.parseInt(request.getParameter("columnasAgregar"));
+        int tiempoLimpiezaSala = Integer.parseInt(request.getParameter("tiempoAgregar"));
+        Sala sala = new Sala(request.getParameter("nombreAgregar"), filasSala, columnasSala, tiempoLimpiezaSala);
+        getSala().agregarSala(sala, idCine);
+        response.sendRedirect("gestionSalas.jsp");
+    }
+    
+    private void borrar(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        int idSala = Integer.parseInt(request.getParameter("idBorrar"));
+        Sala sala = new Sala(idSala);
+        getSala().borrarSala(sala);
+        response.sendRedirect("gestionSalas.jsp");
+    }
+    
     private void modificar(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int idSala = Integer.parseInt(request.getParameter("idModificar"));
         int filasSala = Integer.parseInt(request.getParameter("filasModificar"));

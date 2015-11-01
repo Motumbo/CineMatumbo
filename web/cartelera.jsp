@@ -1,5 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -8,6 +8,9 @@
     </head>
     <body>
         <jsp:include page="topMenu.jsp" />
+        <c:if test="${usuarioConectado.categoria eq 'admin'}">
+            <c:redirect url="index.jsp"/>
+        </c:if>
         <div class="container">
             <div id="blog" class="row"> 
                 <c:forEach items="${listaPeliculas.dameListaTodos()}" var="pelicula" varStatus="status">

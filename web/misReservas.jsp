@@ -7,6 +7,9 @@
     </head>
     <body>
         <jsp:include page="topMenu.jsp" />
+        <c:if test="${usuarioConectado.categoria eq 'admin' or !usuarioConectado.existe(usuarioConectado)}">
+            <c:redirect url="index.jsp"/>
+        </c:if>
         <h1 style="text-align: center">misReservas</h1>
     </body>
 </html>
