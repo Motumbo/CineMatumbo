@@ -8,6 +8,7 @@ package Modelo.Dao;
 import Modelo.Funcion;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,7 +41,23 @@ public class Funcion_Dao extends DB implements Interface_Dao<Funcion>{
 
     @Override
     public Funcion modificar(Funcion entidad) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            String query = "SELECT * FROM tbl_funciones WHERE horario_inicio = ?";
+            conectar();
+            PreparedStatement ps = getConexion().prepareStatement(query);
+            ps.setString(1, id);
+            setResultado(ps.executeQuery());
+            while (getResultado().next()) {
+                entidad.setIdFuncion(getResultado().getInt("pk_funcion"));
+                entidad.setFechaHoraInicio(getResultado().getTimestamp("horario_inicio")); //ESTE GET.TIMESTAMP RECIBE UN INT COMO PARAMETRO
+                entidad.setIdSalaAlQuePertenece(getResultado().getInt("fk_sala"));
+                entidad.getPelicula().setIdPelicula((getResultado().getInt("fk_pelicula"))); 
+            }
+            desconectar();
+        } catch (SQLException ex) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (entidad);
     }
 
     @Override
@@ -57,17 +74,17 @@ public class Funcion_Dao extends DB implements Interface_Dao<Funcion>{
             setResultado(getSentencia().executeQuery("SELECT * FROM tbl_funciones"));
             while (getResultado().next()) {
                 Funcion entidad = new Funcion();
-                entidad.setIdFuncion(getResultado().getInt("pk_usuario"));
-                entidad.setUserName(getResultado().getString("username"));
-                entidad.setCategoria(getResultado().getString("categoria"));
-                entidad.setMail(getResultado().getString("email"));
-                listaUsuarios.add(entidad);
+                entidad.setIdFuncion(getResultado().getInt("pk_funcion"));
+                entidad.setIdSalaAlQuePertenece(getResultado().getInt("fk_sala"));
+                entidad.getPelicula().setIdPelicula(getResultado().getInt("fk_pelicula"));
+                entidad.setFechaHoraInicio(getResultado().getTimestamp("horario_inicio")); //ESTE GET.TIMESTAMP RECIBE UN INT COMO PARAMETRO
+                listaFunciones.add(entidad);
             }
             desconectar();
         } catch (SQLException ex) {
             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return listaUsuarios;
+        return listaFunciones;
     }
 
     @Override
@@ -81,12 +98,9 @@ public class Funcion_Dao extends DB implements Interface_Dao<Funcion>{
             setResultado(ps.executeQuery());
             while (getResultado().next()) {
                 entidad.setIdFuncion(getResultado().getInt("pk_funcion"));
-                entidad.setFechaHoraInicio(getResultado().getTimestam("horario_inicio"))  /////////NO EXISTE UN GET TIMESTAMP QUE RECIBA UN TIMESTAMP COMO PARAMETRO DE ENTRADA
+                entidad.setFechaHoraInicio(getResultado().getTimestamp("horario_inicio")); //ESTE GET.TIMESTAMP RECIBE UN INT COMO PARAMETRO
                 entidad.setIdSalaAlQuePertenece(getResultado().getInt("fk_sala"));
                 entidad.getPelicula().setIdPelicula((getResultado().getInt("fk_pelicula"))); 
-//                      Î
-// A ver si te das cuenta como mierda tuve que hacer aca para asignarle la mierda de id de la pelicula a tu mierda de funcion, directamente cambia la clase porongaes y ponele un id_Pelicula, que no necesita mas que eso.
-
             }
             desconectar();
         } catch (SQLException ex) {
@@ -98,14 +112,15 @@ public class Funcion_Dao extends DB implements Interface_Dao<Funcion>{
     public Funcion dameXId(int idSala, int idPelicula) { 
         Funcion entidad = new Funcion();
         try {
-            String query = "SELECT * FROM tbl_funciones WHERE horario_inicio = ?";
+            String query = "SELECT * FROM tbl_funciones where fk_sala = ? and where fk_pelicula";
             conectar();
             PreparedStatement ps = getConexion().prepareStatement(query);
-            ps.setString(1, id);
+            ps.setInt(1, idSala);
+            ps.setInt(2, idPelicula);
             setResultado(ps.executeQuery());
             while (getResultado().next()) {
                 entidad.setIdFuncion(getResultado().getInt("pk_funcion"));
-                entidad.setFechaHoraInicio(getResultado().getTimestam("horario_inicio"))  /////////NO EXISTE UN GET TIMESTAMP QUE RECIBA UN TIMESTAMP COMO PARAMETRO DE ENTRADA
+                entidad.setFechaHoraInicio(getResultado().getTimestamp("horario_inicio")); //ESTE GET.TIMESTAMP RECIBE UN INT COMO PARAMETRO
                 entidad.setIdSalaAlQuePertenece(getResultado().getInt("fk_sala"));
                 entidad.getPelicula().setIdPelicula((getResultado().getInt("fk_pelicula"))); 
             }
@@ -114,6 +129,121 @@ public class Funcion_Dao extends DB implements Interface_Dao<Funcion>{
             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return (entidad);
+    }
+    
+    public ArrayList<Funcion> dameFuncionesXHorario(Timestamp horarioInicioFuncion) {
+        ArrayList listaFunciones = new ArrayList();
+        try {
+            String query = "SELECT * FROM tbl_funciones where horario_inicio = ?";
+            conectar();
+            PreparedStatement ps = getConexion().prepareStatement(query);
+            ps.setTimestamp(1, horarioInicioFuncion);
+            setResultado(ps.executeQuery());
+            while (getResultado().next()) {
+                Funcion entidad = new Funcion();
+                entidad.setIdFuncion(getResultado().getInt("pk_funcion"));
+                entidad.setIdSalaAlQuePertenece(getResultado().getInt("fk_sala"));
+                entidad.getPelicula().setIdPelicula(getResultado().getInt("fk_pelicula"));
+                entidad.setFechaHoraInicio(getResultado().getTimestamp("horario_inicio")); //ESTE GET.TIMESTAMP RECIBE UN INT COMO PARAMETRO
+                listaFunciones.add(entidad);
+            }
+            desconectar();
+        } catch (SQLException ex) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listaFunciones;
+    }
+    
+    public ArrayList<Funcion> dameFuncionesXPelicula(int idPelicula) {
+        ArrayList listaFunciones = new ArrayList();
+        try {
+            String query = "SELECT * FROM tbl_funciones where fk_pelicula = ?";
+            conectar();
+            PreparedStatement ps = getConexion().prepareStatement(query);
+            ps.setInt(1, idPelicula);
+            setResultado(ps.executeQuery());
+            while (getResultado().next()) {
+                Funcion entidad = new Funcion();
+                entidad.setIdFuncion(getResultado().getInt("pk_funcion"));
+                entidad.setIdSalaAlQuePertenece(getResultado().getInt("fk_sala"));
+                entidad.getPelicula().setIdPelicula(getResultado().getInt("fk_pelicula"));
+                entidad.setFechaHoraInicio(getResultado().getTimestamp("horario_inicio")); //ESTE GET.TIMESTAMP RECIBE UN INT COMO PARAMETRO
+                listaFunciones.add(entidad);
+            }
+            desconectar();
+        } catch (SQLException ex) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listaFunciones;
+    }
+    
+    public ArrayList<Funcion> dameFuncionesXPelicula(String nombrePelicula) {
+        ArrayList listaFunciones = new ArrayList();
+        try {
+            String query = "SELECT * FROM tbl_funciones where fk_pelicula = (Select pk_pelicula from tbl_peliculas where nombre = ?)"; // VERIFICAR ESTA ASQUEROSIDAD
+            conectar();
+            PreparedStatement ps = getConexion().prepareStatement(query);
+            ps.setString(1, nombrePelicula);
+            setResultado(ps.executeQuery());
+            while (getResultado().next()) {
+                Funcion entidad = new Funcion();
+                entidad.setIdFuncion(getResultado().getInt("pk_funcion"));
+                entidad.setIdSalaAlQuePertenece(getResultado().getInt("fk_sala"));
+                entidad.getPelicula().setIdPelicula(getResultado().getInt("fk_pelicula"));
+                entidad.setFechaHoraInicio(getResultado().getTimestamp("horario_inicio")); //ESTE GET.TIMESTAMP RECIBE UN INT COMO PARAMETRO
+                listaFunciones.add(entidad);
+            }
+            desconectar();
+        } catch (SQLException ex) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listaFunciones;
+    }
+    
+    public ArrayList<Funcion> dameFuncionesXCine(int idCine) {
+        ArrayList listaFunciones = new ArrayList();
+        try {
+            String query = "SELECT * FROM tbl_funciones where fk_cine = ?"; // NOOOOOO ACA HAY QUE BUSCAR DE OTRA MANERA
+            conectar();
+            PreparedStatement ps = getConexion().prepareStatement(query);
+            ps.setInt(1, idCine);
+            setResultado(ps.executeQuery());
+            while (getResultado().next()) {
+                Funcion entidad = new Funcion();
+                entidad.setIdFuncion(getResultado().getInt("pk_funcion"));
+                entidad.setIdSalaAlQuePertenece(getResultado().getInt("fk_sala"));
+                entidad.getPelicula().setIdPelicula(getResultado().getInt("fk_pelicula"));
+                entidad.setFechaHoraInicio(getResultado().getTimestamp("horario_inicio")); //ESTE GET.TIMESTAMP RECIBE UN INT COMO PARAMETRO
+                listaFunciones.add(entidad);
+            }
+            desconectar();
+        } catch (SQLException ex) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listaFunciones;
+    }
+    
+    public ArrayList<Funcion> dameFuncionesXSala(int idSala) {
+        ArrayList listaFunciones = new ArrayList();
+        try {
+            String query = "SELECT * FROM tbl_funciones where fk_sala = ?";
+            conectar();
+            PreparedStatement ps = getConexion().prepareStatement(query);
+            ps.setInt(1, idSala);
+            setResultado(ps.executeQuery());
+            while (getResultado().next()) {
+                Funcion entidad = new Funcion();
+                entidad.setIdFuncion(getResultado().getInt("pk_funcion"));
+                entidad.setIdSalaAlQuePertenece(getResultado().getInt("fk_sala"));
+                entidad.getPelicula().setIdPelicula(getResultado().getInt("fk_pelicula"));
+                entidad.setFechaHoraInicio(getResultado().getTimestamp("horario_inicio")); //ESTE GET.TIMESTAMP RECIBE UN INT COMO PARAMETRO
+                listaFunciones.add(entidad);
+            }
+            desconectar();
+        } catch (SQLException ex) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listaFunciones;
     }
 
     @Override
