@@ -45,7 +45,7 @@ public class Funcion_Dao extends DB implements Interface_Dao<Funcion>{
             String query = "SELECT * FROM tbl_funciones WHERE horario_inicio = ?";
             conectar();
             PreparedStatement ps = getConexion().prepareStatement(query);
-            ps.setString(1, id);
+            ps.setInt(1, entidad.getIdFuncion());
             setResultado(ps.executeQuery());
             while (getResultado().next()) {
                 entidad.setIdFuncion(getResultado().getInt("pk_funcion"));
