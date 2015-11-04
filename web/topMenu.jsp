@@ -42,8 +42,9 @@
                             <c:choose>
                                 <c:when test="${usuarioConectado.categoria eq 'admin'}">
                                     <li><a href="gestionUsuarios.jsp">Gestionar usuarios</a></li>
+                                    <li><a href="gestionCines.jsp">Gestionar cines</a></li>
                                     <li><a href="gestionSalas.jsp">Gestionar salas</a></li>
-                                    <li><a href="gestionPeliculas.jsp">Gestionar películas</a></li>
+                                    <li><a href="gestionPeliculas.jsp">Gestionar peliculas</a></li>
                                     <li><a href="gestionFunciones.jsp">Gestionar funciones</a></li>
                                     <li><a href="historialReservas.jsp">Historial de reservas</a></li>
                                     </c:when>

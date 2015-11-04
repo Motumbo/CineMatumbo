@@ -29,36 +29,33 @@ public class Cine_Dao extends DB implements Interface_Dao<Cine> {
 
     @Override
     public Cine modificar(Cine entidad) {
-        if (this.existe(entidad)) {
-            try {
-                String query = "UPDATE tbl_cines SET nombre = ?, ciudad = ? WHERE pk_cine = ?";
-                conectar();
-                PreparedStatement ps = getConexion().prepareStatement(query);
-                ps.setString(1, entidad.getNombre());
-                ps.setString(2, entidad.getCiudad());
-                ps.setInt(3, entidad.getIdCine());
-                ps.execute();
-                desconectar();
-            } catch (SQLException ex) {
-                Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            String query = "UPDATE tbl_cines SET nombre = ?, ciudad = ? WHERE pk_cine = ?";
+            conectar();
+            PreparedStatement ps = getConexion().prepareStatement(query);
+            ps.setString(1, entidad.getNombre());
+            ps.setString(2, entidad.getCiudad());
+            ps.setInt(3, entidad.getIdCine());
+            ps.execute();
+            desconectar();
+        } catch (SQLException ex) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+
         }
         return entidad;
     }
 
     @Override
     public void borrar(Cine entidad) {
-        if (!this.existe(entidad)) {
-            try {
-                String query = "DELETE FROM tbl_cines WHERE pk_cine = ?";
-                conectar();
-                PreparedStatement ps = getConexion().prepareStatement(query);
-                ps.setInt(1, entidad.getIdCine());
-                ps.execute();
-                desconectar();
-            } catch (SQLException ex) {
-                Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            String query = "DELETE FROM tbl_cines WHERE pk_cine = ?";
+            conectar();
+            PreparedStatement ps = getConexion().prepareStatement(query);
+            ps.setInt(1, entidad.getIdCine());
+            ps.execute();
+            desconectar();
+        } catch (SQLException ex) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

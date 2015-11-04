@@ -17,6 +17,26 @@ public class Cine {
         setListaSalas(null);
     }
     
+    public Cine(String newNombre, String newCiudad){
+        setIdCine(0);
+        setNombre(newNombre);
+        setCiudad(newCiudad);
+        setListaSalas(null);
+    }
+    
+    public Cine(int currentId, String newNombre, String newCiudad){
+        setIdCine(currentId);
+        setNombre(newNombre);
+        setCiudad(newCiudad);
+        setListaSalas(null);
+    }
+    
+    public Cine(int currentId){
+        setIdCine(currentId);
+        setNombre("");
+        setCiudad("");
+        setListaSalas(null);
+    }
     
     public int getIdCine() {
         return _idCine;
