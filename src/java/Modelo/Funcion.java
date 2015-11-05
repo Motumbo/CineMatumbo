@@ -10,6 +10,7 @@ public class Funcion {
     private int _idSalaAlQuePertenece;
     private Pelicula _pelicula;
     private Timestamp _fechaHoraInicio;
+    private Float _tarifa;
 
     public int getIdFuncion() {
         return _idFuncion;
@@ -39,41 +40,46 @@ public class Funcion {
         this._fechaHoraInicio = _fechaHoraInicio;
     }
 
+    public Float getTarifa() {
+        return _tarifa;
+    }
+    public void setTarifa(Float _tarifa) {
+        this._tarifa = _tarifa;
+    }
+    
     
     ////////////////////////////////////////////// METODOS DE ALMACENAMIENTO CON Funcion_Dao DB /////////////////////////////////////////////////////////////////
     
     private Funcion_Dao _datos = new Funcion_Dao();
-    private ArrayList _listaUsuarios = new ArrayList();
+    private ArrayList _listaFunciones = new ArrayList();
 
-    public void agregarUsuario(Funcion funcion) {
+    public void agregarFuncion(Funcion funcion) {
         if (!funcion.existe(funcion)) {
             _datos.agregar(funcion);
         }
     }
 
-    public void modificarUsuario(Funcion funcion) {
+    public void modificarFuncion(Funcion funcion) {
         _datos.modificar(funcion);        
     }
 
-    public void borrarUsuario(Funcion funcion) {       
+    public void borrarFuncion(Funcion funcion) {       
         _datos.borrar(funcion);        
     }
 
     public ArrayList dameListaTodos() {
-        _listaUsuarios = _datos.dameAll();
-        return _listaUsuarios;
+        _listaFunciones = _datos.dameAll();
+        return _listaFunciones;
     }
 
-    public Funcion buscarUsuario(String username) {
-        return _datos.dameXId(username);
+    public Funcion buscarFunciones(String idString) {
+        return _datos.dameXId(idString);
     }
 
     public boolean existe(Funcion user) {
         return _datos.existe(user);
     }
 
-    ////////////////////////////////////////////// METODOS DE ALMACENAMIENTO CON Usuario_Dao DB /////////////////////////////////////////////////////////////////
-
-
+    ////////////////////////////////////////////// METODOS DE ALMACENAMIENTO CON Funcion_Dao DB /////////////////////////////////////////////////////////////////
 
 }

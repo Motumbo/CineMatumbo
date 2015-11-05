@@ -24,12 +24,13 @@ public class Funcion_Dao extends DB implements Interface_Dao<Funcion>{
     public Funcion agregar(Funcion entidad) {
         if (!this.existe(entidad)) {
             try {
-                String query = "INSERT INTO tbl_funciones (horario_inicio, fk_sala, fk_pelicula) values(?, ?, ?)";
+                String query = "INSERT INTO tbl_funciones (horario_inicio, fk_sala, fk_pelicula, tarifa) values(?, ?, ?, ?)";
                 conectar();
                 PreparedStatement ps = getConexion().prepareStatement(query);
                 ps.setTimestamp(1, entidad.getFechaHoraInicio());
                 ps.setInt(2, entidad.getIdSalaAlQuePertenece());
                 ps.setInt(3, entidad.getPelicula().getIdPelicula());
+                ps.setFloat(4, entidad.getTarifa());
                 ps.execute();
                 desconectar();
             } catch (SQLException ex) {
@@ -42,27 +43,34 @@ public class Funcion_Dao extends DB implements Interface_Dao<Funcion>{
     @Override
     public Funcion modificar(Funcion entidad) {
         try {
-            String query = "SELECT * FROM tbl_funciones WHERE horario_inicio = ?";
+            String query = "UPDATE tbl_funciones SET horario_inicio = ?, fk_sala = ?, fk_pelicula = ?, tarifa = ? WHERE pk_funcion = ?";
             conectar();
             PreparedStatement ps = getConexion().prepareStatement(query);
-            ps.setInt(1, entidad.getIdFuncion());
-            setResultado(ps.executeQuery());
-            while (getResultado().next()) {
-                entidad.setIdFuncion(getResultado().getInt("pk_funcion"));
-                entidad.setFechaHoraInicio(getResultado().getTimestamp("horario_inicio")); //ESTE GET.TIMESTAMP RECIBE UN INT COMO PARAMETRO
-                entidad.setIdSalaAlQuePertenece(getResultado().getInt("fk_sala"));
-                entidad.getPelicula().setIdPelicula((getResultado().getInt("fk_pelicula"))); 
-            }
+            ps.setTimestamp(1, entidad.getFechaHoraInicio());
+            ps.setInt(2, entidad.getIdSalaAlQuePertenece());
+            ps.setInt(3, entidad.getPelicula().getIdPelicula());
+            ps.setFloat(4, entidad.getTarifa());
+            ps.setInt(5, entidad.getIdFuncion());
+            ps.execute();
             desconectar();
         } catch (SQLException ex) {
             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return (entidad);
+        return entidad;
     }
 
     @Override
     public void borrar(Funcion entidad) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            String query = "DELETE FROM tbl_funciones WHERE pk_funcion = ?";
+            conectar();
+            PreparedStatement ps = getConexion().prepareStatement(query);
+            ps.setInt(1, entidad.getIdFuncion());
+            ps.execute();
+            desconectar();
+        } catch (SQLException ex) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
@@ -78,6 +86,7 @@ public class Funcion_Dao extends DB implements Interface_Dao<Funcion>{
                 entidad.setIdSalaAlQuePertenece(getResultado().getInt("fk_sala"));
                 entidad.getPelicula().setIdPelicula(getResultado().getInt("fk_pelicula"));
                 entidad.setFechaHoraInicio(getResultado().getTimestamp("horario_inicio")); //ESTE GET.TIMESTAMP RECIBE UN INT COMO PARAMETRO
+                entidad.setTarifa(getResultado().getFloat("tarifa"));
                 listaFunciones.add(entidad);
             }
             desconectar();
@@ -101,6 +110,7 @@ public class Funcion_Dao extends DB implements Interface_Dao<Funcion>{
                 entidad.setFechaHoraInicio(getResultado().getTimestamp("horario_inicio")); //ESTE GET.TIMESTAMP RECIBE UN INT COMO PARAMETRO
                 entidad.setIdSalaAlQuePertenece(getResultado().getInt("fk_sala"));
                 entidad.getPelicula().setIdPelicula((getResultado().getInt("fk_pelicula"))); 
+                entidad.setTarifa(getResultado().getFloat("tarifa"));
             }
             desconectar();
         } catch (SQLException ex) {
@@ -119,10 +129,11 @@ public class Funcion_Dao extends DB implements Interface_Dao<Funcion>{
             ps.setInt(2, idPelicula);
             setResultado(ps.executeQuery());
             while (getResultado().next()) {
-                entidad.setIdFuncion(getResultado().getInt("pk_funcion"));
-                entidad.setFechaHoraInicio(getResultado().getTimestamp("horario_inicio")); //ESTE GET.TIMESTAMP RECIBE UN INT COMO PARAMETRO
+                entidad.setIdFuncion(getResultado().getInt("pk_funcion"));            
                 entidad.setIdSalaAlQuePertenece(getResultado().getInt("fk_sala"));
                 entidad.getPelicula().setIdPelicula((getResultado().getInt("fk_pelicula"))); 
+                entidad.setFechaHoraInicio(getResultado().getTimestamp("horario_inicio")); //ESTE GET.TIMESTAMP RECIBE UN INT COMO PARAMETRO
+                entidad.setTarifa(getResultado().getFloat("tarifa"));
             }
             desconectar();
         } catch (SQLException ex) {
@@ -145,6 +156,7 @@ public class Funcion_Dao extends DB implements Interface_Dao<Funcion>{
                 entidad.setIdSalaAlQuePertenece(getResultado().getInt("fk_sala"));
                 entidad.getPelicula().setIdPelicula(getResultado().getInt("fk_pelicula"));
                 entidad.setFechaHoraInicio(getResultado().getTimestamp("horario_inicio")); //ESTE GET.TIMESTAMP RECIBE UN INT COMO PARAMETRO
+                entidad.setTarifa(getResultado().getFloat("tarifa"));
                 listaFunciones.add(entidad);
             }
             desconectar();
@@ -168,6 +180,7 @@ public class Funcion_Dao extends DB implements Interface_Dao<Funcion>{
                 entidad.setIdSalaAlQuePertenece(getResultado().getInt("fk_sala"));
                 entidad.getPelicula().setIdPelicula(getResultado().getInt("fk_pelicula"));
                 entidad.setFechaHoraInicio(getResultado().getTimestamp("horario_inicio")); //ESTE GET.TIMESTAMP RECIBE UN INT COMO PARAMETRO
+                entidad.setTarifa(getResultado().getFloat("tarifa"));
                 listaFunciones.add(entidad);
             }
             desconectar();
@@ -191,6 +204,7 @@ public class Funcion_Dao extends DB implements Interface_Dao<Funcion>{
                 entidad.setIdSalaAlQuePertenece(getResultado().getInt("fk_sala"));
                 entidad.getPelicula().setIdPelicula(getResultado().getInt("fk_pelicula"));
                 entidad.setFechaHoraInicio(getResultado().getTimestamp("horario_inicio")); //ESTE GET.TIMESTAMP RECIBE UN INT COMO PARAMETRO
+                entidad.setTarifa(getResultado().getFloat("tarifa"));
                 listaFunciones.add(entidad);
             }
             desconectar();
@@ -214,6 +228,7 @@ public class Funcion_Dao extends DB implements Interface_Dao<Funcion>{
                 entidad.setIdSalaAlQuePertenece(getResultado().getInt("fk_sala"));
                 entidad.getPelicula().setIdPelicula(getResultado().getInt("fk_pelicula"));
                 entidad.setFechaHoraInicio(getResultado().getTimestamp("horario_inicio")); //ESTE GET.TIMESTAMP RECIBE UN INT COMO PARAMETRO
+                entidad.setTarifa(getResultado().getFloat("tarifa"));
                 listaFunciones.add(entidad);
             }
             desconectar();
@@ -237,6 +252,7 @@ public class Funcion_Dao extends DB implements Interface_Dao<Funcion>{
                 entidad.setIdSalaAlQuePertenece(getResultado().getInt("fk_sala"));
                 entidad.getPelicula().setIdPelicula(getResultado().getInt("fk_pelicula"));
                 entidad.setFechaHoraInicio(getResultado().getTimestamp("horario_inicio")); //ESTE GET.TIMESTAMP RECIBE UN INT COMO PARAMETRO
+                entidad.setTarifa(getResultado().getFloat("tarifa"));
                 listaFunciones.add(entidad);
             }
             desconectar();
@@ -250,13 +266,14 @@ public class Funcion_Dao extends DB implements Interface_Dao<Funcion>{
     public boolean existe(Funcion entidad) {
         String p = "";
         try {
-            String query = "SELECT * FROM tbl_funciones WHERE fk_sala = ? and fk_pelicula = ? and horario_inicio = ?";
+            String query = "SELECT * FROM tbl_funciones WHERE fk_sala = ? and fk_pelicula = ? and horario_inicio = ? and tarifa = ?";
             conectar();
             PreparedStatement ps = getConexion().prepareStatement(query);
             
             ps.setInt(1, entidad.getIdSalaAlQuePertenece());
             ps.setInt(2, entidad.getPelicula().getIdPelicula());
             ps.setTimestamp(3, entidad.getFechaHoraInicio());
+            ps.setFloat(4, entidad.getTarifa());
             
             setResultado(ps.executeQuery());
             while (getResultado().next()) {

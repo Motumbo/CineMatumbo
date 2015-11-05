@@ -23,12 +23,12 @@ public class Reserva_Dao extends DB implements Interface_Dao<Reserva>{
     public Reserva agregar(Reserva entidad) {
          if (!this.existe(entidad)) {
             try {
-                String query = "INSERT INTO tbl_reservas (horario_inicio, fk_sala, fk_pelicula) values(?, ?, ?)";
+                String query = "INSERT INTO tbl_reservas (asiento, fk_funcion, fk_usuario) values(?, ?, ?)";
                 conectar();
                 PreparedStatement ps = getConexion().prepareStatement(query);
-                ps.setTimestamp(1, entidad.getFechaHoraInicio());
-                ps.setInt(2, entidad.getIdSalaAlQuePertenece());
-                ps.setInt(3, entidad.getPelicula().getIdPelicula());
+                ps.setInt(1, entidad.getAsiento());
+                ps.setInt(2, entidad.getFuncion().getIdFuncion());
+                ps.setInt(3, entidad.getPropietario().getIdUsuario());
                 ps.execute();
                 desconectar();
             } catch (SQLException ex) {
@@ -41,27 +41,35 @@ public class Reserva_Dao extends DB implements Interface_Dao<Reserva>{
     @Override
     public Reserva modificar(Reserva entidad) {
         try {
-            String query = "SELECT * FROM tbl_reservas WHERE horario_inicio = ?";
+            String query = "UPDATE tbl_reservas SET nombre = ?, genero = ?, clasificacion = ?, duracion = ?, imagen = ? WHERE pk_pelicula = ?";
             conectar();
             PreparedStatement ps = getConexion().prepareStatement(query);
-            ps.setInt(1, entidad.getIdFuncion());
-            setResultado(ps.executeQuery());
-            while (getResultado().next()) {
-                entidad.setIdFuncion(getResultado().getInt("pk_funcion"));
-                entidad.setFechaHoraInicio(getResultado().getTimestamp("horario_inicio")); //ESTE GET.TIMESTAMP RECIBE UN INT COMO PARAMETRO
-                entidad.setIdSalaAlQuePertenece(getResultado().getInt("fk_sala"));
-                entidad.getPelicula().setIdPelicula((getResultado().getInt("fk_pelicula"))); 
-            }
+            ps.setString(1, entidad.getNombre());
+            ps.setString(2, entidad.getGenero());
+            ps.setString(3, entidad.getClasificacion());
+            ps.setInt(4, entidad.getDuracion());
+            ps.setString(5, entidad.getImagen());
+            ps.setInt(6, entidad.getIdPelicula());
+            ps.execute();
             desconectar();
         } catch (SQLException ex) {
             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return (entidad);
+        return entidad;
     }
 
     @Override
     public void borrar(Reserva entidad) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            String query = "DELETE FROM tbl_reservas WHERE pk_pelicula = ?";
+            conectar();
+            PreparedStatement ps = getConexion().prepareStatement(query);
+            ps.setInt(1, entidad.getIdPelicula());
+            ps.execute();
+            desconectar();
+        } catch (SQLException ex) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
@@ -73,9 +81,9 @@ public class Reserva_Dao extends DB implements Interface_Dao<Reserva>{
             setResultado(getSentencia().executeQuery("SELECT * FROM tbl_reservas"));
             while (getResultado().next()) {
                 Reserva entidad = new Reserva();
-                entidad.setIdFuncion(getResultado().getInt("pk_funcion"));
-                entidad.setIdSalaAlQuePertenece(getResultado().getInt("fk_sala"));
-                entidad.getPelicula().setIdPelicula(getResultado().getInt("fk_pelicula"));
+                entidad.setIdReserva(getResultado().getInt("pk_funcion"));
+                entidad.setTarifa(getResultado().getInt("fk_sala"));
+                entidad.setFechaHora().setIdPelicula(getResultado().getInt("fk_pelicula"));
                 entidad.setFechaHoraInicio(getResultado().getTimestamp("horario_inicio")); //ESTE GET.TIMESTAMP RECIBE UN INT COMO PARAMETRO
                 listaReservaciones.add(entidad);
             }
