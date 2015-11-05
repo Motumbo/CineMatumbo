@@ -10,6 +10,8 @@
 <jsp:setProperty name="listaSalas" property="*"/>
 <jsp:useBean id="listaPeliculas" class="Modelo.Pelicula" scope="request"/>
 <jsp:setProperty name="listaPeliculas" property="*"/>
+<jsp:useBean id="listaFunciones" class="Modelo.Funcion" scope="request"/>
+<jsp:setProperty name="listaFunciones" property="*"/>
 
 <div class="container">
     <div class="row">
@@ -49,12 +51,12 @@
                                     <li><a href="historialReservas.jsp">Historial de reservas</a></li>
                                     </c:when>
                                     <c:when test="${usuarioConectado.categoria eq 'cliente'}">
-                                    <li><a href="cartelera.jsp">Cartelera</a></li>
+                                    <li><a href="index.jsp">Cartelera</a></li>
                                     <li><a href="reservar.jsp">Reservar entradas</a></li>
                                     <li><a href="misReservas.jsp">Mis reservas</a></li>
                                     </c:when>
                                     <c:otherwise>
-                                    <li><a href="cartelera.jsp">Cartelera</a></li>
+                                    <li><a href="index.jsp">Cartelera</a></li>
                                     </c:otherwise>
                                 </c:choose>
                         </ul>

@@ -1,17 +1,25 @@
 package Modelo;
 
 import Modelo.Dao.Funcion_Dao;
-import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Funcion {
 
     private int _idFuncion;
     private int _idSalaAlQuePertenece;
     private Pelicula _pelicula;
-    private Timestamp _fechaHoraInicio;
+    private Date _fechaHoraInicio;
     private Float _tarifa;
 
+    public Funcion(){
+        setIdFuncion(0);
+        setIdSalaAlQuePertenece(0);
+        setPelicula(null);
+        setFechaHoraInicio(null);
+        setTarifa(null);
+    }
+    
     public int getIdFuncion() {
         return _idFuncion;
     }
@@ -33,10 +41,10 @@ public class Funcion {
         this._pelicula = _pelicula;
     }
 
-    public Timestamp getFechaHoraInicio() {
+    public Date getFechaHoraInicio() {
         return _fechaHoraInicio;
     }
-    public void setFechaHoraInicio(Timestamp _fechaHoraInicio) {
+    public void setFechaHoraInicio(Date _fechaHoraInicio) {
         this._fechaHoraInicio = _fechaHoraInicio;
     }
 
