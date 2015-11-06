@@ -12,6 +12,8 @@
 <jsp:setProperty name="listaPeliculas" property="*"/>
 <jsp:useBean id="listaFunciones" class="Modelo.Funcion" scope="request"/>
 <jsp:setProperty name="listaFunciones" property="*"/>
+<jsp:useBean id="listaReservas" class="Modelo.Reserva" scope="request"/>
+<jsp:setProperty name="listaReservas" property="*"/>
 
 <div class="container">
     <div class="row">
