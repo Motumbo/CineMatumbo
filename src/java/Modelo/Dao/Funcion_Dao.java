@@ -86,13 +86,11 @@ public class Funcion_Dao extends DB implements Interface_Dao<Funcion>{
             setResultado(getSentencia().executeQuery("SELECT * FROM tbl_funciones"));
             while (getResultado().next()) {
                 Funcion entidad = new Funcion();
+                Pelicula pelicula = new Pelicula();
+                pelicula = pelicula.buscarPelicula(getResultado().getInt("fk_pelicula"));
                 entidad.setIdFuncion(getResultado().getInt("pk_funcion"));
-                entidad.setIdSalaAlQuePertenece(getResultado().getInt("fk_sala"));
-                
-                entidad.setPelicula(new Pelicula(getResultado().getInt("fk_pelicula")));
-                
-                //getResultado().getInt("fk_pelicula"));
-                
+                entidad.setIdSalaAlQuePertenece(getResultado().getInt("fk_sala"));               
+                entidad.setPelicula(pelicula); //getResultado().getInt("fk_pelicula"))               
                 entidad.setFechaHoraInicio(new Date(getResultado().getTimestamp("horario_inicio").getTime())); //ESTE GET.TIMESTAMP RECIBE UN INT COMO PARAMETRO
                 entidad.setTarifa(getResultado().getFloat("tarifa"));
                 listaFunciones.add(entidad);

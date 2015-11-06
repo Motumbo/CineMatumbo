@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "Funcion_Control", urlPatterns = {"/controlFunciones"})
+@WebServlet(name = "Funcion_Control", urlPatterns = {"/controlFuncion"})
 public class Funcion_Control extends HttpServlet {
 
     private Funcion _funcion = new Funcion();

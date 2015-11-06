@@ -121,6 +121,10 @@ public class Pelicula {
         return _datos.dameXId(nombre);
     }
 
+    public Pelicula buscarPelicula(int id) {
+        return _datos.dameXId(id);
+    }
+    
     public boolean existe(Pelicula entidad) {
         return _datos.existe(entidad);
     }

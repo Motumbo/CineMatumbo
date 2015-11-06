@@ -14,61 +14,75 @@
         <div class="container">    
             <table class="table table-striped">
                 <thead>
-                <th>Numero de ID</th
+                <th>Numero de ID</th>
+                <th>Cine</th>
+                <th>Sala</th>
                 <th>Pelicula</th>
                 <th>Fecha y hora de inicio</th>
                 <th>Tarifa</th>
                 </thead>
                 <c:forEach items="${listaFunciones.dameListaTodos()}" var="funcion">
+                    <c:set var="sala" value="${listaSalas.dameListaTodos().get(funcion.getIdSalaAlQuePertenece() - 1)}" />
                     <tr>
                         <td>${funcion.getIdFuncion()}</td>
+                        <td>${cine.getNombre()}</td>
+                        <td>${sala.getNombre()}</td>
                         <td>${funcion.getPelicula().getNombre()}</td>
                         <td>${funcion.getFechaHoraInicio()}</td>
-                        <!--TARIFA--><td>DOPESO</td>
+                        <td>$ ${funcion.getTarifa()}</td>
                     </tr>
                 </c:forEach>
             </table>
         </div>
         <div class="col-md-4">
-            <form class="form-horizontal" action="controlSala">
+            <form class="form-horizontal" action="controlFuncion">
                 <fieldset>
-                    <legend>Agregar Sala</legend>
+                    <legend>Agregar Funcion</legend>
                     <input type="hidden" name="accion" value="agregar" />
                     <div class="form-group">
-                        <label class="col-md-6 control-label" for="idCineAgregar">Nombre del cine</label>
+                        <label class="col-md-6 control-label" for="idSalaAgregar">Nombre de la sala</label>
                         <div class="col-md-6">
-                            <select name="idCineAgregar" class="form-control">
-                                <c:forEach items="${listaCines.dameListaTodos()}" var="cine">
-                                    <option value="${cine.getIdCine()}">${cine.getNombre()}</option>
+                            <select name="idSalaAgregar" class="form-control">
+                                <c:forEach items="${listaSalas.dameListaTodos()}" var="sala">
+                                    <option value="${sala.getIdSala()}">ID ${sala.getIdSala()} - ${sala.getNombre()}</option>
                                 </c:forEach>
                             </select>
-                            <span class="help-block">Seleccione el cine al cual quiere agregar la sala</span>  
+                            <span class="help-block">Seleccione la sala a la cual quiere agregar la funcion</span>  
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-6 control-label" for="nombreAgregar">Nombre de sala</label>  
+                        <label class="col-md-6 control-label" for="idPeliculaAgregar">Nombre de la pelicula</label>
                         <div class="col-md-6">
-                            <input name="nombreAgregar" placeholder="Ingrese el nombre de la sala" class="form-control input-md" required="" type="text">
+                            <select name="idCineAgregar" class="form-control">
+                                <c:forEach items="${listaPeliculas.dameListaTodos()}" var="pelicula">
+                                    <option value="${pelicula.getIdPelicula()}">${pelicula.getNombre()}</option>
+                                </c:forEach>
+                            </select>
+                            <span class="help-block">Seleccione la pelicula a la cual quiere agregar la funcion</span>  
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-6 control-label" for="filasAgregar">Filas</label>  
-                        <div class="col-md-6">
-                            <input name="filasAgregar" placeholder="Ingrese el numero de filas" class="form-control input-md" required="" type="number" min="0">
+                        <label class="col-md-6 control-label" for="fechaHoraAgregar">Fecha y hora</label>
+                        <div class='col-md-6'>
+                            <div class='input-group date' id='datetimepicker1'>
+                                <input type='text' class="form-control" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
                         </div>
                     </div>
+                    <script type="text/javascript">
+                        $(function () {
+                            $('#datetimepicker1').datetimepicker();
+                        });
+                    </script>
                     <div class="form-group">
-                        <label class="col-md-6 control-label" for="columnasAgregar">Columnas</label>  
+                        <label class="col-md-6 control-label" for="tarifaAgregar">Tarifa</label>  
                         <div class="col-md-6">
-                            <input name="columnasAgregar" placeholder="Ingrese el numero de columnas" class="form-control input-md" required="" type="number" min="0">
+                            <input name="tarifaAgregar" placeholder="Ingrese el precio de la entrada" class="form-control input-md" required="" type="number" min="0">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-md-6 control-label" for="tiempoAgregar">Tiempo de limpieza</label>  
-                        <div class="col-md-6">
-                            <input name="tiempoAgregar" placeholder="Ingrese el tiempo de limpieza" class="form-control input-md" required="" type="number" min="0">
-                        </div>
-                    </div>                    
                     <div class="form-group">
                         <label class="col-md-6 control-label" for="buttonAgregar"></label>
                         <div class="col-md-6">
@@ -79,78 +93,72 @@
             </form>
         </div>
         <div class="col-md-4">
-            <form class="form-horizontal" action="controlSala">
+            <form class="form-horizontal" action="controlFuncion">
                 <fieldset>
                     <legend>Modificar Sala</legend>
                     <input type="hidden" name="accion" value="modificar" />
                     <div class="form-group">
-                        <label class="col-md-6 control-label" for="idModificar">Sala</label>
+                        <label class="col-md-6 control-label" for="idModificar">Funcion</label>
                         <div class="col-md-6">
                             <select name="idModificar" class="form-control">
-                                <c:forEach items="${listaSalas.dameListaTodos()}" var="sala">
-                                    <option value="${sala.getIdSala()}">ID ${sala.getIdSala()} - ${sala.getNombre()}</option>
+                                <c:forEach items="${listaFunciones.dameListaTodos()}" var="funcion">
+                                    <option value="${funcion.getIdFuncion()}">ID ${funcion.getIdFuncion()} - ${funcion.getPelicula().getNombre()}</option>
                                 </c:forEach>
                             </select>
-                            <span class="help-block">Seleccione la sala a modificar</span>  
+                            <span class="help-block">Seleccione la funcion a modificar</span>  
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-6 control-label" for="nombreModificar">Nombre de sala</label>  
-                        <div class="col-md-6">
-                            <input name="nombreModificar" placeholder="Nuevo nombre de sala" class="form-control input-md" required="" type="text">
+                        <label class="col-md-6 control-label" for="fechaHoraModificar">Fecha y hora</label>
+                        <div class='col-md-6'>
+                            <div class='input-group date' id='datetimepicker2'>
+                                <input type='text' class="form-control" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
                         </div>
                     </div>
+                    <script type="text/javascript">
+                        $(function () {
+                            $('#datetimepicker2').datetimepicker();
+                        });
+                    </script>
                     <div class="form-group">
-                        <label class="col-md-6 control-label" for="filasModificar">Filas</label>  
+                        <label class="col-md-6 control-label" for="tarifaModificar">Tarifa</label>  
                         <div class="col-md-6">
-                            <input name="filasModificar" placeholder="Nuevo numero de filas" class="form-control input-md" required="" type="number" min="0">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-6 control-label" for="columnasModificar">Columnas</label>  
-                        <div class="col-md-6">
-                            <input name="columnasModificar" placeholder="Nuevo numero de columnas" class="form-control input-md" required="" type="number" min="0">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-6 control-label" for="tiempoModificar">Tiempo de limpieza</label>  
-                        <div class="col-md-6">
-                            <input name="tiempoModificar" placeholder="Nuevo tiempo de limpieza" class="form-control input-md" required="" type="number" min="0">
-                        </div>
-                    </div>                    
-                    <div class="form-group">
-                        <label class="col-md-6 control-label" for="buttonModificar"></label>
-                        <div class="col-md-6">
-                            <button type="submit" value="modificar" name="buttonModificar" class="btn btn-primary">Guardar cambios</button>
+                            <input name="tarifaModificar" placeholder="Nuevo precio de la entrada" class="form-control input-md" required="" type="number" min="0">
                         </div>
                     </div>
                 </fieldset>
             </form>
         </div>
         <div class="col-md-4">
-            <form class="form-horizontal" action="controlSala">
+            <form class="form-horizontal" action="controlFuncion">
                 <fieldset>
-                    <legend>Borrar Sala</legend>
+                    <legend>Borrar Funcion</legend>
                     <input type="hidden" name="accion" value="borrar" />
                     <div class="form-group">
-                        <label class="col-md-6 control-label" for="idBorrar">Sala</label>
+                        <label class="col-md-6 control-label" for="idBorrar">Funcion</label>
                         <div class="col-md-6">
                             <select name="idBorrar" class="form-control">
-                                <c:forEach items="${listaSalas.dameListaTodos()}" var="sala">
-                                    <option value="${sala.getIdSala()}">ID ${sala.getIdSala()} - ${sala.getNombre()}</option>
+                                <c:forEach items="${listaFunciones.dameListaTodos()}" var="funcion">
+                                    <option value="${funcion.getIdFuncion()}">ID ${funcion.getIdFuncion()} - ${funcion.getPelicula().getNombre()}</option>
                                 </c:forEach>
                             </select>
-                            <span class="help-block">Seleccione la sala a borrar</span>  
+                            <span class="help-block">Seleccione la funcion a borrar</span>  
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-6 control-label" for="buttonBorrar"></label>
                         <div class="col-md-6">
-                            <button type="submit" value="borrar" name="buttonBorrar" class="btn btn-primary">Eliminar Sala</button>
+                            <button type="submit" value="borrar" name="buttonBorrar" class="btn btn-primary">Eliminar funcion</button>
                         </div>
                     </div>
                 </fieldset>
             </form>
-        </div>
+        </div>       
+        <script src="ScriptsExternos/bootstrap.min.js" type="text/javascript"></script>
+        <script src="ScriptsExternos/jquery-2.1.4.min.js" type="text/javascript"></script>
     </body>
 </html>
