@@ -138,7 +138,8 @@ public class Sala {
     }
 
     public int getIdDelCineAlQuePertenezco(int idSala) {
-        return _datos.dameIdCineXIdSala(idSala);
+        int idCine = _datos.dameIdCineXIdSala(idSala);
+        return idCine;
     }
     
     ////////////////////////////////////////////// METODOS DE ALMACENAMIENTO CON Sala_Dao DB /////////////////////////////////////////////////////////////////

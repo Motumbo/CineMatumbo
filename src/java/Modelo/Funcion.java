@@ -15,7 +15,7 @@ public class Funcion {
     public Funcion(){
         setIdFuncion(0);
         setIdSalaAlQuePertenece(0);
-        setPelicula(null);
+        setPelicula(new Pelicula());
         setFechaHoraInicio(null);
         setTarifa(null);
     }
@@ -108,6 +108,14 @@ public class Funcion {
         return _datos.dameXId(idString);
     }
 
+    public Funcion buscarFunciones(int id) {
+        return _datos.dameXId(id);
+    }
+    
+    public ArrayList dameListaFuncionesXpelicula(int idPelicula){
+        return _datos.dameFuncionesXPelicula(idPelicula);
+    }
+    
     public boolean existe(Funcion user) {
         return _datos.existe(user);
     }

@@ -1,22 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Modelo.Dao;
 
 import Modelo.Reserva;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Feto
- */
 public class Reserva_Dao extends DB implements Interface_Dao<Reserva>{
 
     @Override
@@ -27,10 +18,7 @@ public class Reserva_Dao extends DB implements Interface_Dao<Reserva>{
     
     public ArrayList<Reserva> agregarListaReservas(ArrayList<Reserva> listaReservas) {
         ArrayList listaReservasExitosas = new ArrayList();
-        
-        // ESTA MIERDA DE METODO LLAMA A UNA TRANSACCION ALMACENADA EN EL SERVER, QUE VERIFICA SI EXISTE LA DISPONIBILIDAD Y LA GUARDA O AVISA QUE NO SE PUDO HACER.
-        // LAS RESERVAS QUE FUERON EXITOSAS LAS VA GUARDANDO EN LA LISTA, PARA DISPONER DE ELLAS Y GENERAR UN TICKET DE RESERVA
-        
+
         for (Reserva reserva : listaReservas) {
             listaReservasExitosas.add(this.agregar(reserva));
         }
@@ -52,7 +40,7 @@ public class Reserva_Dao extends DB implements Interface_Dao<Reserva>{
 
     @Override
     public ArrayList<Reserva> dameAll() {
-        ArrayList listaFunciones = new ArrayList();
+        ArrayList listaReservas = new ArrayList();
         try {
             conectar();
             setSentencia(getConexion().createStatement());
@@ -63,17 +51,17 @@ public class Reserva_Dao extends DB implements Interface_Dao<Reserva>{
                 entidad.setAsiento(getResultado().getInt("asiento"));               
                 entidad.getFuncion().setIdFuncion(getResultado().getInt("fk_funcion"));               
                 entidad.getUsuarioPropietario().setIdUsuario(getResultado().getInt("fk_usuario"));
-                listaFunciones.add(entidad);
+                listaReservas.add(entidad);
             }
             desconectar();
         } catch (SQLException ex) {
             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return listaFunciones;
+        return listaReservas;
     }
     
     public ArrayList<Reserva> dameMisReservasDeUnaMismaFuncion(int idUsuarioPropietario, int idFuncion) {
-        ArrayList listaFunciones = new ArrayList();
+        ArrayList listaReservas = new ArrayList();
         try {
             String query = "SELECT * FROM tbl_reservas where fk_propietario = ? and fk_funcion = ?";
             conectar();
@@ -87,17 +75,17 @@ public class Reserva_Dao extends DB implements Interface_Dao<Reserva>{
                 entidad.setAsiento(getResultado().getInt("asiento"));               
                 entidad.getFuncion().setIdFuncion(getResultado().getInt("fk_funcion"));               
                 entidad.getUsuarioPropietario().setIdUsuario(getResultado().getInt("fk_usuario"));
-                listaFunciones.add(entidad);
+                listaReservas.add(entidad);
             }
             desconectar();
         } catch (SQLException ex) {
             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return listaFunciones;
+        return listaReservas;
     }
     
     public ArrayList<Reserva> dameTodasReservasDeUnaMismaFuncion(int idFuncion) {
-        ArrayList listaFunciones = new ArrayList();
+        ArrayList listaReservas = new ArrayList();
         try {
             String query = "SELECT * FROM tbl_reservas where fk_funcion = ?";
             conectar();
@@ -110,13 +98,36 @@ public class Reserva_Dao extends DB implements Interface_Dao<Reserva>{
                 entidad.setAsiento(getResultado().getInt("asiento"));               
                 entidad.getFuncion().setIdFuncion(getResultado().getInt("fk_funcion"));               
                 entidad.getUsuarioPropietario().setIdUsuario(getResultado().getInt("fk_usuario"));
-                listaFunciones.add(entidad);
+                listaReservas.add(entidad);
             }
             desconectar();
         } catch (SQLException ex) {
             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return listaFunciones;
+        return listaReservas;
+    }
+    
+    public ArrayList<Reserva> dameMisReservasActivas(int idUsuarioPropietario) {
+        ArrayList listaReservas = new ArrayList();
+        try {
+            String query = "SELECT * FROM tbl_reservas INNER JOIN tbl_funciones ON fk_funcion = pk_funcion WHERE tbl_reservas.fk_usuario = ? AND tbl_funciones.horario_inicio > now()";
+            conectar();
+            PreparedStatement ps = getConexion().prepareStatement(query);
+            ps.setInt(1, idUsuarioPropietario);
+            setResultado(ps.executeQuery());
+            while (getResultado().next()) {
+                Reserva entidad = new Reserva();
+                entidad.setIdReserva(getResultado().getInt("pk_reserva"));
+                entidad.setAsiento(getResultado().getInt("asiento"));               
+                entidad.getFuncion().setIdFuncion(getResultado().getInt("fk_funcion"));               
+                entidad.getUsuarioPropietario().setIdUsuario(getResultado().getInt("fk_usuario"));
+                listaReservas.add(entidad);
+            }
+            desconectar();
+        } catch (SQLException ex) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listaReservas;
     }
 
     @Override

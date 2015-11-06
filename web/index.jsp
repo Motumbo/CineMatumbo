@@ -18,6 +18,12 @@
                         <p>Genero: ${pelicula.getGenero()}</p>
                         <p>Clasificacion: ${pelicula.getClasificacion()}</p>
                         <p>Duracion: ${pelicula.getDuracion()} minutos</p>
+                        <p>Funciones: </p>
+                        <c:forEach items="${listaFunciones.dameListaFuncionesXpelicula(pelicula.getIdPelicula())}" var="funcion">
+                            <c:set var="sala" value="${listaSalas.buscarSala(funcion.getIdSalaAlQuePertenece())}" />
+                            <c:set var="cine" value="${listaCines.buscarCine(sala.getIdDelCineAlQuePertenezco(sala.getIdSala()))}" />
+                            # ${cine.getNombre()} - ${sala.getNombre()} - ${funcion.getFechaHoraInicio()} <br>
+                        </c:forEach>
                     </div>
                 </c:forEach>
             </div>

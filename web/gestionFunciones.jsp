@@ -45,7 +45,8 @@
                         <div class="col-md-6">
                             <select name="idSalaAgregar" class="form-control">
                                 <c:forEach items="${listaSalas.dameListaTodos()}" var="sala">
-                                    <option value="${sala.getIdSala()}">ID ${sala.getIdSala()} - ${sala.getNombre()}</option>
+                                    <c:set var="cine" value="${listaCines.buscarCine(sala.getIdDelCineAlQuePertenezco(sala.getIdSala()))}" />
+                                    <option value="${sala.getIdSala()}">ID ${sala.getIdSala()} - ${sala.getNombre()} (${cine.getNombre()})</option>
                                 </c:forEach>
                             </select>
                             <span class="help-block">Seleccione la sala a la cual quiere agregar la funcion</span>  
@@ -87,7 +88,7 @@
         <div class="col-md-4">
             <form class="form-horizontal" action="controlFuncion">
                 <fieldset>
-                    <legend>Modificar Sala</legend>
+                    <legend>Modificar Funcion</legend>
                     <input type="hidden" name="accion" value="modificar" />
                     <div class="form-group">
                         <label class="col-md-6 control-label" for="idModificar">Funcion</label>

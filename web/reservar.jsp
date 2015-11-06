@@ -41,21 +41,22 @@
                         <select id="selectbasic" name="selectbasic" class="form-control">
                             <c:forEach items="${listaFunciones.dameListaTodos()}" var="funcion">
                                 <option value="${funcion.getIdFuncion()}">${funcion.getPelicula().getNombre()} - ${funcion.getFechaHoraInicio()}</option>
-                            </c:forEach>
+                            
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="radios">Asiento</label>
                     <div class="col-md-4"> 
-                        <c:forEach begin="0" end="${(listaSalas.buscarSala(funcion.getIdSalaAlQuePertenece()).getFilas()) * (listaSalas.buscarSala(funcion.getIdSalaAlQuePertenece()).getColumnas())}" varStatus="loop">
+                        <c:forEach begin="1" end="${(listaSalas.buscarSala(funcion.getIdSalaAlQuePertenece()).getFilas()) * (listaSalas.buscarSala(funcion.getIdSalaAlQuePertenece()).getColumnas())}" varStatus="loop">
                             <label class="radio-inline" for="radios-${loop.index}">
                                 <input name="radios" id="radios-${loop.index}" value="${loop.count}" type="radio">
                                 ${loop.count}
                                 
-                                <!-- MISMO PROBLEMA ANTERIOR, NO MUESTRO ASIENTOS DE ESA FUNCION -->
+                                <!-- CORREGIR CON CHECKS Y SEPARAR LA SELECCION DE BUTACAS EN OTRO FORM -->
                                 
                             </label> 
+                        </c:forEach>
                         </c:forEach>
                     </div>
                 </div>
