@@ -96,6 +96,8 @@ public class Sala {
         this._listaFunciones = _listaFunciones;
     }
 
+    
+    
     ////////////////////////////////////////////// METODOS DE ALMACENAMIENTO CON Sala_Dao DB /////////////////////////////////////////////////////////////////
     private Sala_Dao _datos = new Sala_Dao();
     private ArrayList<Sala> _listaSalas = new ArrayList();
@@ -131,5 +133,9 @@ public class Sala {
         return _datos.existe(entidad);
     }
 
+    public int getIdDelCineAlQuePertenezco(int idSala) {
+        return _datos.dameIdCineXIdSala(idSala);
+    }
+    
     ////////////////////////////////////////////// METODOS DE ALMACENAMIENTO CON Sala_Dao DB /////////////////////////////////////////////////////////////////
 }

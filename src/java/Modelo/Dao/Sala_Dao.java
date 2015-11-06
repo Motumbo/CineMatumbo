@@ -136,6 +136,24 @@ public class Sala_Dao extends DB implements Interface_Dao<Sala> {
         }
         return (entidad);
     }
+    
+    public int dameIdCineXIdSala(int idSala) {
+        Sala entidad = new Sala();
+        try {
+            String query = "SELECT fk_cine FROM tbl_salas WHERE pk_sala = ? ";
+            conectar();
+            PreparedStatement ps = getConexion().prepareStatement(query);
+            ps.setInt(1, idSala);
+            setResultado(ps.executeQuery());
+            while (getResultado().next()) {
+                 entidad.setIdSala(getResultado().getInt("fk_cine"));
+            }
+            desconectar();
+        } catch (SQLException ex) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return entidad.getIdSala();
+    }
 
     @Override
     public boolean existe(Sala entidad) {
