@@ -128,6 +128,10 @@ public class Sala {
     public Sala buscarSala(String nombre) {
         return _datos.dameXId(nombre);
     }
+    
+    public Sala buscarSala(int id) {
+        return _datos.dameXId(id);
+    }
 
     public boolean existe(Sala entidad) {
         return _datos.existe(entidad);

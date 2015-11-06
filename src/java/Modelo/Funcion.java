@@ -20,6 +20,30 @@ public class Funcion {
         setTarifa(null);
     }
     
+     public Funcion(int idFuncion){
+        setIdFuncion(idFuncion);
+        setIdSalaAlQuePertenece(0);
+        setPelicula(null);
+        setFechaHoraInicio(null);
+        setTarifa(null);
+    }
+    
+    public Funcion(int idSala, int idPelicula, Date newFechaHora, float newTarifa){
+        setIdFuncion(0);
+        setIdSalaAlQuePertenece(idSala);
+        setPelicula(new Pelicula().buscarPelicula(idPelicula));
+        setFechaHoraInicio(newFechaHora);
+        setTarifa(newTarifa);
+    }
+    
+    public Funcion(int idFuncion, Date newFechaHora, float newTarifa){
+        setIdFuncion(idFuncion);
+        setIdSalaAlQuePertenece(0);
+        setPelicula(null);
+        setFechaHoraInicio(newFechaHora);
+        setTarifa(newTarifa);
+    }
+    
     public int getIdFuncion() {
         return _idFuncion;
     }

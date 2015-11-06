@@ -100,6 +100,10 @@ public class Cine {
     public Cine buscarCine(String nombre) {
         return _datos.dameXId(nombre);
     }
+    
+    public Cine buscarCine(int id) {
+        return _datos.dameXId(id);
+    }
 
     public boolean existe(Cine entidad) {
         return _datos.existe(entidad);

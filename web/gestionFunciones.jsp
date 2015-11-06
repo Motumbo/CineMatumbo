@@ -22,7 +22,8 @@
                 <th>Tarifa</th>
                 </thead>
                 <c:forEach items="${listaFunciones.dameListaTodos()}" var="funcion">
-                    <c:set var="sala" value="${listaSalas.dameListaTodos().get(funcion.getIdSalaAlQuePertenece() - 1)}" />
+                    <c:set var="sala" value="${listaSalas.buscarSala(funcion.getIdSalaAlQuePertenece())}" />
+                    <c:set var="cine" value="${listaCines.buscarCine(sala.getIdDelCineAlQuePertenezco(sala.getIdSala()))}" />
                     <tr>
                         <td>${funcion.getIdFuncion()}</td>
                         <td>${cine.getNombre()}</td>
@@ -53,7 +54,7 @@
                     <div class="form-group">
                         <label class="col-md-6 control-label" for="idPeliculaAgregar">Nombre de la pelicula</label>
                         <div class="col-md-6">
-                            <select name="idCineAgregar" class="form-control">
+                            <select name="idPeliculaAgregar" class="form-control">
                                 <c:forEach items="${listaPeliculas.dameListaTodos()}" var="pelicula">
                                     <option value="${pelicula.getIdPelicula()}">${pelicula.getNombre()}</option>
                                 </c:forEach>
@@ -62,21 +63,12 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-6 control-label" for="fechaHoraAgregar">Fecha y hora</label>
-                        <div class='col-md-6'>
-                            <div class='input-group date' id='datetimepicker1'>
-                                <input type='text' class="form-control" />
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                            </div>
+                        <label class="col-md-6 control-label" for="fechaHoraAgregar">Fecha y hora</label>  
+                        <div class="col-md-6">
+                            <input name="fechaHoraAgregar" placeholder="Ingrese la fecha y hora de la funcion" class="form-control input-md" required="" type="text">
+                            <span class="help-block">Formato: yyyy-mm-dd hh:mm:ss</span>
                         </div>
                     </div>
-                    <script type="text/javascript">
-                        $(function () {
-                            $('#datetimepicker1').datetimepicker();
-                        });
-                    </script>
                     <div class="form-group">
                         <label class="col-md-6 control-label" for="tarifaAgregar">Tarifa</label>  
                         <div class="col-md-6">
@@ -86,7 +78,7 @@
                     <div class="form-group">
                         <label class="col-md-6 control-label" for="buttonAgregar"></label>
                         <div class="col-md-6">
-                            <button type="submit" value="agregar" name="buttonAgregar" class="btn btn-primary">Crear sala</button>
+                            <button type="submit" value="agregar" name="buttonAgregar" class="btn btn-primary">Crear funcion</button>
                         </div>
                     </div>
                 </fieldset>
@@ -109,25 +101,22 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-6 control-label" for="fechaHoraModificar">Fecha y hora</label>
-                        <div class='col-md-6'>
-                            <div class='input-group date' id='datetimepicker2'>
-                                <input type='text' class="form-control" />
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                            </div>
+                        <label class="col-md-6 control-label" for="fechaHoraModificar">Fecha y hora</label>  
+                        <div class="col-md-6">
+                            <input name="fechaHoraModificar" placeholder="Nueva fecha y hora de la funcion" class="form-control input-md" required="" type="text">
+                            <span class="help-block">Formato: yyyy-mm-dd hh:mm:ss</span>
                         </div>
                     </div>
-                    <script type="text/javascript">
-                        $(function () {
-                            $('#datetimepicker2').datetimepicker();
-                        });
-                    </script>
                     <div class="form-group">
                         <label class="col-md-6 control-label" for="tarifaModificar">Tarifa</label>  
                         <div class="col-md-6">
                             <input name="tarifaModificar" placeholder="Nuevo precio de la entrada" class="form-control input-md" required="" type="number" min="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-6 control-label" for="buttonModificar"></label>
+                        <div class="col-md-6">
+                            <button type="submit" value="modificar" name="buttonModificar" class="btn btn-primary">Guardar cambios</button>
                         </div>
                     </div>
                 </fieldset>
@@ -157,8 +146,6 @@
                     </div>
                 </fieldset>
             </form>
-        </div>       
-        <script src="ScriptsExternos/bootstrap.min.js" type="text/javascript"></script>
-        <script src="ScriptsExternos/jquery-2.1.4.min.js" type="text/javascript"></script>
+        </div>
     </body>
 </html>

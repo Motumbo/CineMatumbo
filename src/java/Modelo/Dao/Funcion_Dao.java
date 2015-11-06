@@ -47,14 +47,12 @@ public class Funcion_Dao extends DB implements Interface_Dao<Funcion>{
     public Funcion modificar(Funcion entidad) {
         Timestamp timestamp = new Timestamp(entidad.getFechaHoraInicio().getTime());
         try {
-            String query = "UPDATE tbl_funciones SET horario_inicio = ?, fk_sala = ?, fk_pelicula = ?, tarifa = ? WHERE pk_funcion = ?";
+            String query = "UPDATE tbl_funciones SET horario_inicio = ?, tarifa = ? WHERE pk_funcion = ?";
             conectar();
             PreparedStatement ps = getConexion().prepareStatement(query);
             ps.setTimestamp(1, timestamp);
-            ps.setInt(2, entidad.getIdSalaAlQuePertenece());
-            ps.setInt(3, entidad.getPelicula().getIdPelicula());
-            ps.setFloat(4, entidad.getTarifa());
-            ps.setInt(5, entidad.getIdFuncion());
+            ps.setFloat(2, entidad.getTarifa());
+            ps.setInt(3, entidad.getIdFuncion());
             ps.execute();
             desconectar();
         } catch (SQLException ex) {

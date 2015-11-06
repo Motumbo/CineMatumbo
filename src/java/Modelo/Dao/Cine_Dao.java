@@ -101,6 +101,26 @@ public class Cine_Dao extends DB implements Interface_Dao<Cine> {
         return entidad;
     }
 
+    public Cine dameXId(int id) {
+        Cine entidad = new Cine();
+        try {
+            String query = "SELECT * FROM tbl_cines WHERE pk_cine = ?";
+            conectar();
+            PreparedStatement ps = getConexion().prepareStatement(query);
+            ps.setInt(1, id);
+            setResultado(ps.executeQuery());
+            while (getResultado().next()) {
+                entidad.setIdCine(getResultado().getInt("pk_cine"));
+                entidad.setNombre(getResultado().getString("nombre"));
+                entidad.setCiudad(getResultado().getString("ciudad"));
+            }
+            desconectar();
+        } catch (SQLException ex) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return entidad;
+    }
+    
     @Override
     public boolean existe(Cine entidad) {
         String p = "";

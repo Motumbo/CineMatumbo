@@ -137,6 +137,28 @@ public class Sala_Dao extends DB implements Interface_Dao<Sala> {
         return (entidad);
     }
     
+    public Sala dameXId(int id) {
+        Sala entidad = new Sala();
+        try {
+            String query = "SELECT * FROM tbl_salas WHERE pk_sala = ? ";
+            conectar();
+            PreparedStatement ps = getConexion().prepareStatement(query);
+            ps.setInt(1, id);
+            setResultado(ps.executeQuery());
+            while (getResultado().next()) {
+                entidad.setIdSala(getResultado().getInt("pk_sala"));
+                entidad.setNombre(getResultado().getString("nombre"));
+                entidad.setFilas(getResultado().getInt("filas"));
+                entidad.setColumnas(getResultado().getInt("columnas"));
+                entidad.setTiempoLimpieza(getResultado().getInt("tiempo_limpieza"));
+            }
+            desconectar();
+        } catch (SQLException ex) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (entidad);
+    }
+    
     public int dameIdCineXIdSala(int idSala) {
         Sala entidad = new Sala();
         try {
