@@ -21,93 +21,124 @@ public class Reserva_Dao extends DB implements Interface_Dao<Reserva>{
 
     @Override
     public Reserva agregar(Reserva entidad) {
-         if (!this.existe(entidad)) {
-            try {
-                String query = "INSERT INTO tbl_reservas (asiento, fk_funcion, fk_usuario) values(?, ?, ?)";
-                conectar();
-                PreparedStatement ps = getConexion().prepareStatement(query);
-                ps.setInt(1, entidad.getAsiento());
-                ps.setInt(2, entidad.getFuncion().getIdFuncion());
-                ps.setInt(3, entidad.getPropietario().getIdUsuario());
-                ps.execute();
-                desconectar();
-            } catch (SQLException ex) {
-                Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        return entidad;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    
+    public ArrayList<Reserva> agregarListaReservas(ArrayList<Reserva> listaReservas) {
+        ArrayList listaReservasExitosas = new ArrayList();
+        
+        // ESTA MIERDA DE METODO LLAMA A UNA TRANSACCION ALMACENADA EN EL SERVER, QUE VERIFICA SI EXISTE LA DISPONIBILIDAD Y LA GUARDA O AVISA QUE NO SE PUDO HACER.
+        // LAS RESERVAS QUE FUERON EXITOSAS LAS VA GUARDANDO EN LA LISTA, PARA DISPONER DE ELLAS Y GENERAR UN TICKET DE RESERVA
+        
+        for (Reserva reserva : listaReservas) {
+            listaReservasExitosas.add(this.agregar(reserva));
+        }
+        
+        
+        return listaReservasExitosas;
+    }
+    
 
     @Override
     public Reserva modificar(Reserva entidad) {
-        try {
-            String query = "UPDATE tbl_reservas SET nombre = ?, genero = ?, clasificacion = ?, duracion = ?, imagen = ? WHERE pk_pelicula = ?";
-            conectar();
-            PreparedStatement ps = getConexion().prepareStatement(query);
-            ps.setString(1, entidad.getNombre());
-            ps.setString(2, entidad.getGenero());
-            ps.setString(3, entidad.getClasificacion());
-            ps.setInt(4, entidad.getDuracion());
-            ps.setString(5, entidad.getImagen());
-            ps.setInt(6, entidad.getIdPelicula());
-            ps.execute();
-            desconectar();
-        } catch (SQLException ex) {
-            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return entidad;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void borrar(Reserva entidad) {
-        try {
-            String query = "DELETE FROM tbl_reservas WHERE pk_pelicula = ?";
-            conectar();
-            PreparedStatement ps = getConexion().prepareStatement(query);
-            ps.setInt(1, entidad.getIdPelicula());
-            ps.execute();
-            desconectar();
-        } catch (SQLException ex) {
-            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public ArrayList<Reserva> dameAll() {
-        ArrayList listaReservaciones = new ArrayList();
+        ArrayList listaFunciones = new ArrayList();
         try {
             conectar();
             setSentencia(getConexion().createStatement());
             setResultado(getSentencia().executeQuery("SELECT * FROM tbl_reservas"));
             while (getResultado().next()) {
                 Reserva entidad = new Reserva();
-                entidad.setIdReserva(getResultado().getInt("pk_funcion"));
-                entidad.setTarifa(getResultado().getInt("fk_sala"));
-                entidad.setFechaHora().setIdPelicula(getResultado().getInt("fk_pelicula"));
-                entidad.setFechaHoraInicio(getResultado().getTimestamp("horario_inicio")); //ESTE GET.TIMESTAMP RECIBE UN INT COMO PARAMETRO
-                listaReservaciones.add(entidad);
+                entidad.setIdReserva(getResultado().getInt("pk_reserva"));
+                entidad.setAsiento(getResultado().getInt("asiento"));               
+                entidad.getFuncion().setIdFuncion(getResultado().getInt("fk_funcion"));               
+                entidad.getUsuarioPropietario().setIdUsuario(getResultado().getInt("fk_usuario"));
+                listaFunciones.add(entidad);
             }
             desconectar();
         } catch (SQLException ex) {
             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return listaReservaciones;
+        return listaFunciones;
+    }
+    
+    public ArrayList<Reserva> dameMisReservasDeUnaMismaFuncion(int idUsuarioPropietario, int idFuncion) {
+        ArrayList listaFunciones = new ArrayList();
+        try {
+            String query = "SELECT * FROM tbl_reservas where fk_propietario = ? and fk_funcion = ?";
+            conectar();
+            PreparedStatement ps = getConexion().prepareStatement(query);
+            ps.setInt(1, idUsuarioPropietario);
+            ps.setInt(2, idFuncion);
+            setResultado(ps.executeQuery());
+            while (getResultado().next()) {
+                Reserva entidad = new Reserva();
+                entidad.setIdReserva(getResultado().getInt("pk_reserva"));
+                entidad.setAsiento(getResultado().getInt("asiento"));               
+                entidad.getFuncion().setIdFuncion(getResultado().getInt("fk_funcion"));               
+                entidad.getUsuarioPropietario().setIdUsuario(getResultado().getInt("fk_usuario"));
+                listaFunciones.add(entidad);
+            }
+            desconectar();
+        } catch (SQLException ex) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listaFunciones;
+    }
+    
+    public ArrayList<Reserva> dameTodasReservasDeUnaMismaFuncion(int idFuncion) {
+        ArrayList listaFunciones = new ArrayList();
+        try {
+            String query = "SELECT * FROM tbl_reservas where fk_funcion = ?";
+            conectar();
+            PreparedStatement ps = getConexion().prepareStatement(query);
+            ps.setInt(1, idFuncion);
+            setResultado(ps.executeQuery());
+            while (getResultado().next()) {
+                Reserva entidad = new Reserva();
+                entidad.setIdReserva(getResultado().getInt("pk_reserva"));
+                entidad.setAsiento(getResultado().getInt("asiento"));               
+                entidad.getFuncion().setIdFuncion(getResultado().getInt("fk_funcion"));               
+                entidad.getUsuarioPropietario().setIdUsuario(getResultado().getInt("fk_usuario"));
+                listaFunciones.add(entidad);
+            }
+            desconectar();
+        } catch (SQLException ex) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listaFunciones;
     }
 
     @Override
     public Reserva dameXId(String id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+
+    public Reserva dameXId(int id) {
         Reserva entidad = new Reserva();
         try {
-            String query = "SELECT * FROM tbl_reservas WHERE horario_inicio = ?";
+            String query = "SELECT * FROM tbl_reservas WHERE pk_reserva = ?";
             conectar();
             PreparedStatement ps = getConexion().prepareStatement(query);
-            ps.setString(1, id);
+            ps.setInt(1, id);
             setResultado(ps.executeQuery());
             while (getResultado().next()) {
-                entidad.setIdFuncion(getResultado().getInt("pk_funcion"));
-                entidad.setFechaHoraInicio(getResultado().getTimestamp("horario_inicio")); //ESTE GET.TIMESTAMP RECIBE UN INT COMO PARAMETRO
-                entidad.setIdSalaAlQuePertenece(getResultado().getInt("fk_sala"));
-                entidad.getPelicula().setIdPelicula((getResultado().getInt("fk_pelicula"))); 
+                entidad.setIdReserva(getResultado().getInt("pk_reserva"));
+                entidad.setAsiento(getResultado().getInt("asiento"));
+                entidad.getUsuarioPropietario().setIdUsuario(getResultado().getInt("fk_usuario"));
+                entidad.getFuncion().setIdFuncion(getResultado().getInt("fk_funcion"));
+
             }
             desconectar();
         } catch (SQLException ex) {
@@ -118,25 +149,6 @@ public class Reserva_Dao extends DB implements Interface_Dao<Reserva>{
 
     @Override
     public boolean existe(Reserva entidad) {
-        String p = "";
-        try {
-            String query = "SELECT * FROM tbl_reservas WHERE fk_sala = ? and fk_pelicula = ? and horario_inicio = ?";
-            conectar();
-            PreparedStatement ps = getConexion().prepareStatement(query);
-            
-            ps.setInt(1, entidad.getIdSalaAlQuePertenece());
-            ps.setInt(2, entidad.getPelicula().getIdPelicula());
-            ps.setTimestamp(3, entidad.getFechaHoraInicio());
-            
-            setResultado(ps.executeQuery());
-            while (getResultado().next()) {
-                p = String.valueOf(getResultado().getInt("pk_funcion"));
-            }
-            desconectar();
-        } catch (SQLException ex) {
-            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return (!"".equals(p));
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
 }

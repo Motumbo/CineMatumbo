@@ -7,18 +7,30 @@ import java.util.ArrayList;
 public class Reserva {
 
     private int _idReserva;
-    private Usuario _propietario;
+    private Usuario _usuarioPropietario;
     private Funcion _funcion;
     private int _asiento;
 
     
-    
-
-    public Usuario getPropietario() {
-        return _propietario;
+    public Reserva(){
+        setIdReserva(0);
+        setAsiento(0);
+        setUsuarioPropietario(new Usuario());
+        setFuncion(new Funcion());
     }
-    public void setPropietario(Usuario _propietario) {
-        this._propietario = _propietario;
+    
+    public Reserva(Usuario usuarioPropietario, Funcion funcion, int numeroAsiento){
+        setIdReserva(0);
+        setUsuarioPropietario(usuarioPropietario);
+        setFuncion(funcion);
+        setAsiento(numeroAsiento);
+    }
+
+    public Usuario getUsuarioPropietario() {
+        return _usuarioPropietario;
+    }
+    public void setUsuarioPropietario(Usuario _propietario) {
+        this._usuarioPropietario = _propietario;
     }
     
     public Funcion getFuncion() {
@@ -67,9 +79,18 @@ public class Reserva {
         _listaReservas = _datos.dameAll();
         return _listaReservas;
     }
+    
+    public ArrayList dameListaTodasReservasMiasParaFuncionX(int idUsuario, int idFuncion) {
+        _listaReservas = _datos.dameMisReservasDeUnaMismaFuncion(idUsuario, idFuncion);
+        return _listaReservas;
+    }
 
     public Reserva buscarReserva(String idString) {
         return _datos.dameXId(idString);
+    }
+    
+    public Reserva buscarReservaXId(int idReserva) {
+        return _datos.dameXId(idReserva);
     }
 
     public boolean existe(Reserva reserva) {
